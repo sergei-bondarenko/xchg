@@ -126,3 +126,78 @@ class Exchange:
       result = 1
 
     return result
+
+  def make_portfolio(self, portfolio):
+    '''Buy/sell assests according a desired portfolio. Portfolio
+       is a distribution of funds between currencies.
+
+    Args:
+      portfolio: Target portfolio represented as dictionary
+        of currencies as keys and portions as values.
+
+    Returns:
+      0: Successfully distributed funds according requested
+        portfolio.
+      1: Unable to perform some trades, resulted portfolio
+        differs from which you requested.
+    '''
+
+    current_balance = self.balance
+    candles = self.current_candles
+    fee = self.fee
+
+    # Calculate current portfolio.
+    current_portfolio = np.empty(len(current_balance))
+    for index, (currency, amount) in enumerate(current_balance.items()):
+      if currency == 'cash':
+        current_portfolio[index] = amount
+      else:
+        current_portfolio[index] = amount * candles[currency]['close']
+    current_portfolio_volume = np.sum(current_portfolio)
+    current_portfolio /= current_portfolio_volume
+
+    # Convert target portfolio from dict to numpy array.
+    target_portfolio = np.empty(len(current_balance))
+    for index, (currency, value) in enumerate(portfolio.items()):
+      target_portfolio[index] = value
+
+
+    # Calculate portfolio volume change after trading.
+    pvc0 = 1
+    pvc1 = 1 - 2 * fee + fee ** 2
+    while abs(pvc1 - pvc0) > 1e-10:
+      pvc0 = pvc1
+      pvc1 = (1 - fee * current_portfolio[0]
+             - (2 * fee - fee ** 2)
+             * np.sum(np.maximum(current_portfolio[1:] \
+             - pvc1 * target_portfolio[1:], 0))) \
+             / (1 - fee * target_portfolio[0])
+
+    target_portfolio_volume = current_portfolio_volume * pvc1
+
+    target_balance = {}
+    for index, (currency, amount) in enumerate(current_balance.items()):
+      if currency == 'cash':
+        target_balance[currency] = target_portfolio_volume * target_portfolio[0]
+      else:
+        target_balance[currency] = target_portfolio_volume * target_portfolio[index] / candles[currency]['close']
+
+    print(current_balance)
+    print(current_portfolio_volume)
+    print(pvc1)
+    print(target_balance)
+    print(target_portfolio_volume)
+
+    # Sell.
+    for currency, amount in current_balance.items():
+      if currency != 'cash':
+        amount = current_balance[currency] - target_balance[currency]
+        if amount > 0:
+          self.sell(currency, amount)
+
+    # Buy.
+    for currency, amount in current_balance.items():
+      if currency != 'cash':
+        amount = target_balance[currency] - current_balance[currency]
+        if amount > 0:
+          self.buy(currency, amount)

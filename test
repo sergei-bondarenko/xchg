@@ -1,0 +1,24 @@
+#!/usr/bin/env python3
+
+from exchange import Exchange
+
+cash_amount = 1  # How much of base currency (cash) we will have.
+fee = 0.09       # Fee in percents for each trade.
+data_path = 'sample_data'  # Where csv files with data are stored.
+
+# Minimum trade volume expressed in a base currency (cash).
+#min_order_size = 0.0001
+min_order_size = 0
+
+# List of currecies to use.
+currencies = ['ETC', 'ETH', 'LTC', 'XMR']
+
+# Create an exchange. We are at the first candle now.
+ex = Exchange(cash_amount, fee, min_order_size, data_path, currencies)
+
+#ex.balance = {'cash': 0.2, 'ETC': 0.2, 'ETH': 0.2, 'LTC': 0.2, 'XMR': 0.2}
+ex.balance = {'cash': 1, 'ETC': 1000, 'ETH': 1000, 'LTC': 1000, 'XMR': 1000}
+res = ex.make_portfolio({'cash': 0.2, 'ETC': 0.2, 'ETH': 0.2, 'LTC': 0.2, 'XMR': 0.2})
+#print(ex.balance)
+
+#print(res)
