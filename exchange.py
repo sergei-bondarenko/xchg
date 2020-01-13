@@ -127,6 +127,7 @@ class Exchange:
 
     return result
 
+
   def make_portfolio(self, portfolio):
     '''Buy/sell assests according a desired portfolio. Portfolio
        is a distribution of funds between currencies.
@@ -144,7 +145,7 @@ class Exchange:
 
     current_balance = self.balance
     candles = self.current_candles
-    fee = self.fee
+    fee = self.fee / 100
 
     # Calculate current portfolio.
     current_portfolio = np.empty(len(current_balance))
@@ -160,7 +161,6 @@ class Exchange:
     target_portfolio = np.empty(len(current_balance))
     for index, (currency, value) in enumerate(portfolio.items()):
       target_portfolio[index] = value
-
 
     # Calculate portfolio volume change after trading.
     pvc0 = 1
@@ -182,9 +182,9 @@ class Exchange:
       else:
         target_balance[currency] = target_portfolio_volume * target_portfolio[index] / candles[currency]['close']
 
+    print(pvc1)
     print(current_balance)
     print(current_portfolio_volume)
-    print(pvc1)
     print(target_balance)
     print(target_portfolio_volume)
 

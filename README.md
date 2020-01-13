@@ -19,7 +19,7 @@ Now we can trade.
 from exchange import Exchange
 
 cash_amount = 1  # How much of base currency (cash) we will have.
-fee = 0.09       # Fee in percents for each trade.
+fee = 0.09       # Fee in percents for each trade (0.09%).
 data_path = 'sample_data'  # Where csv files with data are stored.
 
 # Minimum trade volume expressed in a base currency (cash).
