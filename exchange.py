@@ -182,7 +182,6 @@ class Exchange:
       else:
         target_balance[currency] = target_portfolio_volume * target_portfolio[index] / candles[currency]['close']
 
-    print(pvc1)
     print(current_balance)
     print(current_portfolio_volume)
     print(target_balance)
