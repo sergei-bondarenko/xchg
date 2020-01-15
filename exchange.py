@@ -139,8 +139,7 @@ class Exchange:
     Returns:
       0: Successfully distributed funds according requested
         portfolio.
-      1: Unable to perform some trades, resulted portfolio
-        differs from which you requested.
+      1: Unable to perform some trades.
     '''
 
     current_balance = self.balance
@@ -175,6 +174,7 @@ class Exchange:
 
     target_portfolio_volume = current_portfolio_volume * pvc1
 
+    # Calculate a target balance.
     target_balance = {}
     for index, (currency, amount) in enumerate(current_balance.items()):
       if currency == 'cash':
@@ -182,23 +182,25 @@ class Exchange:
       else:
         target_balance[currency] = target_portfolio_volume * target_portfolio[index] / candles[currency]['close']
 
-    print(current_balance)
-    print(current_portfolio_volume)
-    print(target_balance)
-    print(target_portfolio_volume)
+    result = 0 # Value which will be returned by this method.
 
     # Sell.
     for currency, amount in current_balance.items():
       if currency != 'cash':
         amount = current_balance[currency] - target_balance[currency]
         if amount > 0:
-          self.sell(currency, amount)
-          print(f"Sold {amount} {currency}.")
+          res = self.sell(currency, amount)
+          result += res
 
     # Buy.
     for currency, amount in current_balance.items():
       if currency != 'cash':
         amount = target_balance[currency] - current_balance[currency]
         if amount > 0:
-          self.buy(currency, amount)
-          print(f"Bought {amount} {currency}.")
+          res = self.buy(currency, amount)
+          result += res
+
+    if result > 0:
+      result = 1
+
+    return result
