@@ -193,6 +193,7 @@ class Exchange:
         amount = current_balance[currency] - target_balance[currency]
         if amount > 0:
           self.sell(currency, amount)
+          print(f"Sold {amount} {currency}.")
 
     # Buy.
     for currency, amount in current_balance.items():
@@ -200,3 +201,4 @@ class Exchange:
         amount = target_balance[currency] - current_balance[currency]
         if amount > 0:
           self.buy(currency, amount)
+          print(f"Bought {amount} {currency}.")

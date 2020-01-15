@@ -12,12 +12,14 @@ data_path = 'test_data'  # Where csv files with data are stored.
 min_order_size = 0
 
 # List of currecies to use.
-currencies = ['CUR1', 'CUR2']
+currencies = ['CUR1', 'CUR2', 'CUR3', 'CUR4']
 
 # Create an exchange. We are at the first candle now.
 ex = Exchange(cash_amount, fee, min_order_size, data_path, currencies)
 
 #ex.balance = {'cash': 1.0, 'ETC': 0.0, 'ETH': 0.0, 'LTC': 0.0, 'XMR': 0.0}
 #res = ex.make_portfolio({'cash': 0.2, 'ETC': 0.2, 'ETH': 0.2, 'LTC': 0.2, 'XMR': 0.2})
-ex.make_portfolio({'cash': 0.2, 'CUR1': 0.2, 'CUR2': 0.4})
+#ex.make_portfolio({'cash': 0.2, 'CUR1': 0.2, 'CUR2': 0.2, 'CUR3': 0.2, 'CUR4': 0.2})
+ex.balance = {'cash': 0.2, 'CUR1': 0.2, 'CUR2': 0.4, 'CUR3': 0.1, 'CUR4': 0.1}
+ex.make_portfolio({'cash': 0.5, 'CUR1': 0.1, 'CUR2': 0.2, 'CUR3': 0.2, 'CUR4': 0.})
 print(ex.balance)
