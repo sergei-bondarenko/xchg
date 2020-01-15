@@ -58,4 +58,13 @@ print(ex.sell('LTC', 50))
 
 # We made some money, yeah!
 print(ex.balance)
+
+# Also you can distribute your funds automatically according a desired
+# portfolio. Let's say, that you want half your funds in cash (BTC),
+# quarter in LTC and the other quarter in ETH.
+# It will return 0 in case of success or 1 if some trades can not be
+# performed.
+
+print(ex.make_portfolio({'cash': 0.5, 'ETC': 0., 'ETH': 0.25, 'LTC': 0.25, 'XMR': 0.}))
+print(ex.balance)
 ```
