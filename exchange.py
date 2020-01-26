@@ -43,6 +43,23 @@ class Exchange:
     return candles_dict
 
 
+  @property
+  def capital(self):
+    '''Returns current capital: sum of all currencies converted to cash
+    (without fees).'''
+    capital = 0.
+    candles = self.current_candles
+    balance = self.balance
+
+    for currency, amount in balance.items():
+      if currency == 'cash':
+        capital += amount
+      else:
+        capital += amount * candles[currency]['close']
+
+    return capital
+
+
   def buy(self, currency, amount):
     '''Buy currency.
     
