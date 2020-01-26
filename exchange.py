@@ -60,6 +60,23 @@ class Exchange:
     return capital
 
 
+  @property
+  def portfolio(self):
+    '''Returns current portfolio dictionary.'''
+    capital = self.capital
+    candles = self.current_candles
+    balance = self.balance
+    portfolio = dict()
+
+    for currency, amount in balance.items():
+      if currency == 'cash':
+        portfolio[currency] = balance[currency] / capital
+      else:
+        portfolio[currency] = balance[currency] * candles[currency]['close'] / capital
+
+    return portfolio
+
+
   def buy(self, currency, amount):
     '''Buy currency.
     
