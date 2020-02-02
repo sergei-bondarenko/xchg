@@ -15,21 +15,27 @@ class Exchange:
       currencies: List of currecies names to use.
     '''
 
-    self.fee = fee
-    self.min_order_size = min_order_size
-    self.currencies = currencies
+    self.__fee = fee
+    self.__min_order_size = min_order_size
+    self.__currencies = currencies
     self.__current_step = 0
     self.__market = dict()  # Market data.
 
     # Our current balance for all currencies.
-    self.balance = {'cash': cash_amount}
+    self.__balance = {'cash': cash_amount}
     
-    for currency in self.currencies:
+    for currency in self.__currencies:
       # Load data from csv file to market dictionary.
       self.__market[currency] = pd.read_csv(f"{data_path}/{currency}.csv")
       
       # Set balance for this currency as zero.
-      self.balance[currency] = 0
+      self.__balance[currency] = 0
+
+
+  @property
+  def balance(self):
+    '''Return current balance.'''
+    return self.__balance
 
 
   @property
@@ -49,7 +55,7 @@ class Exchange:
     (without fees).'''
     capital = 0.
     candles = self.current_candles
-    balance = self.balance
+    balance = self.__balance
 
     for currency, amount in balance.items():
       if currency == 'cash':
@@ -65,7 +71,7 @@ class Exchange:
     '''Returns current portfolio dictionary.'''
     capital = self.capital
     candles = self.current_candles
-    balance = self.balance
+    balance = self.__balance
     portfolio = dict()
 
     for currency, amount in balance.items():
@@ -93,19 +99,19 @@ class Exchange:
 
     price = self.current_candles[currency]['close']
     without_fee = price * amount
-    with_fee = without_fee * (1 + self.fee / 100)
+    with_fee = without_fee * (1 + self.__fee / 100)
 
     result = 0
 
-    if with_fee > self.balance['cash']:
+    if with_fee > self.__balance['cash']:
       result += 1
 
-    if without_fee < self.min_order_size:
+    if without_fee < self.__min_order_size:
       result += 2
 
     if result == 0:
-      self.balance['cash'] -= with_fee
-      self.balance[currency] += amount
+      self.__balance['cash'] -= with_fee
+      self.__balance[currency] += amount
 
     return result
 
@@ -126,19 +132,19 @@ class Exchange:
 
     price = self.current_candles[currency]['close']
     without_fee = price * amount
-    with_fee = without_fee * (1 - self.fee / 100)
+    with_fee = without_fee * (1 - self.__fee / 100)
 
     result = 0
 
-    if amount > self.balance[currency]:
+    if amount > self.__balance[currency]:
       result += 1
 
-    if without_fee < self.min_order_size:
+    if without_fee < self.__min_order_size:
       result += 2
 
     if result == 0:
-      self.balance[currency] -= amount
-      self.balance['cash'] += with_fee
+      self.__balance[currency] -= amount
+      self.__balance['cash'] += with_fee
 
     return result
 
@@ -151,7 +157,7 @@ class Exchange:
       1: Can't move, end of data.
     '''
 
-    last_step = len(self.__market[self.currencies[0]]) - 1
+    last_step = len(self.__market[self.__currencies[0]]) - 1
 
     if self.__current_step < last_step:
       self.__current_step += 1
@@ -176,9 +182,9 @@ class Exchange:
       1: Unable to perform some trades.
     '''
 
-    current_balance = self.balance
+    current_balance = self.__balance
     candles = self.current_candles
-    fee = self.fee / 100
+    fee = self.__fee / 100
 
     # Calculate current portfolio.
     current_portfolio = np.empty(len(current_balance))
