@@ -4,18 +4,17 @@ with open('README.md', 'r') as f:
   long_description = f.read()
 
 setup(
-   name='foo',
-   version='1.0',
-   description='A useful module',
-   license='MIT',
+   name='xchg',
+   version='0.0.1',
+   description='Simulator of a currency exchange.',
    long_description=long_description,
-   author='Man Foo',
-   author_email='foomail@foo.com',
-   url="http://www.foopackage.com/",
-   packages=['foo'],  #same as name
-   install_requires=['bar', 'greek'], #external packages as dependencies
-   scripts=[
-            'scripts/cool',
-            'scripts/skype',
-           ]
+   long_description_content_type='text/markdown',
+   author='Sergei Bondarenko',
+   author_email='sergei@bondarenko.xyz',
+   url='https://github.com/sergei-bondarenko/xchg',
+   packages=['xchg'],
+   install_requires=['pandas', 'poloniex', 'numpy'],
+   entry_points = {
+     'console_scripts': ['download_sample=xchg.download_sample:main'],
+   }
 )

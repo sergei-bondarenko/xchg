@@ -15,7 +15,7 @@ PERIOD = 1800        # Half-hour candles.
 DATA_FOLDER = 'sample_data' # Folder where to save market data.
 
 
-def download_candles(currency, period, start, end):
+def request(currency, period, start, end):
   '''Get candles data from Poloniex exchange for a specified currency
   relative to BTC.
 
