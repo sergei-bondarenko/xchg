@@ -31,15 +31,25 @@ def request(currency, period, start, end):
   return polo.returnChartData(f"BTC_{currency}", period, start=start, end=end)
 
 
-def write_df(df, filepath):
-  '''Writes Pandas DataFrame to a csv file.
+def candles_to_df(candles):
+  '''Converts list of candles to a Pandas DataFrame.
+
+  Args:
+    candles: List of candles.
+
+  Returns Pandas DataFrame.
+  '''
+  return pd.DataFrame(candles).set_index('date')
+
+
+def save_csv(df, filepath):
+  '''Saves Pandas DataFrame to a csv file.
 
   Args:
     df: Pandas DataFrame.
     filepath: Path of the csv file.
   '''
   df.to_csv(filepath)
-
 
 
 def main():
