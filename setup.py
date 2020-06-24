@@ -13,7 +13,7 @@ setup(
    author_email='sergei@bondarenko.xyz',
    url='https://github.com/sergei-bondarenko/xchg',
    packages=['xchg'],
-   install_requires=['pandas', 'poloniex', 'numpy'],
+   install_requires=['pandas', 'poloniex', 'numpy', 'pytest'],
    entry_points = {
      'console_scripts': ['download_sample=xchg.download_sample:main'],
    }
