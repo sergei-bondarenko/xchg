@@ -56,7 +56,8 @@ def test_request(test_candles):
 
 def test_candles_to_df(test_candles, test_dataframe):
   '''Test conversion from candles to Pandas DataFrame.'''
-  assert download_sample.candles_to_df(test_candles) == test_dataframe
+  #assert download_sample.candles_to_df(test_candles) == test_dataframe
+  pd.testing.assert_frame_equal(download_sample.candles_to_df(test_candles), test_dataframe)
 
 
 def test_request(test_candles):
