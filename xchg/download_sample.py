@@ -8,12 +8,6 @@ import os
 import pandas as pd
 from poloniex import Poloniex
 
-CURRENCIES = ['ETH', 'ETC', 'XMR', 'LTC']
-START = 1575158400   # December 1, 2019.
-END = 1575244800     # December 2, 2019.
-PERIOD = 1800        # Half-hour candles.
-DATA_FOLDER = 'sample_data' # Folder where to save market data.
-
 
 def request(currency, period, start, end):
   '''Get candles data from Poloniex exchange for a specified currency
@@ -22,8 +16,8 @@ def request(currency, period, start, end):
   Args:
     currency: Currency which we will request.
     period: Period for one candle in seconds.
-    start: Start of range (UNIX timestamp).
-    end: End of range (UNIX timestamp).
+    start: Start of the range (UNIX timestamp).
+    end: End of the range (UNIX timestamp).
 
   Returns list of dictionaries, each of each represents one candle.
   '''
@@ -39,7 +33,10 @@ def candles_to_df(candles):
 
   Returns Pandas DataFrame.
   '''
-  return pd.DataFrame(candles).set_index('date')
+  return pd.DataFrame(candles, columns=[
+      'date', 'high', 'low', 'open', 'close',
+      'volume', 'quoteVolume', 'weightedAverage'
+    ]).set_index('date')
 
 
 def save_csv(df, filepath):
@@ -52,18 +49,29 @@ def save_csv(df, filepath):
   df.to_csv(filepath)
 
 
-def main():
-#  polo = Poloniex()
-#  df = pd.DataFrame()
-#
-#  if not os.path.exists(DATA_FOLDER):
-#    os.makedirs(DATA_FOLDER)
-#
-#  for currency in CURRENCIES:
-#    candles = polo.returnChartData(f"BTC_{currency}", PERIOD, start=START, end=END)
-#    df = pd.DataFrame(candles).set_index('date')
-#    df.to_csv(f"{DATA_FOLDER}/{currency}.csv", index_label='date')
-  print(download_candles('ETH', 1800, 1575158400, 1575244800))
+def main(currencies=['ETH', 'ETC', 'XMR', 'LTC'], start=1575158400,
+         end=1575244800, period=1800, data_folder='sample_data'):
+  '''Download candles for specified currencies and range and save them
+  to a separate csv files.
+
+  Args:
+    currencies: List of currencies to request from Poloniex.
+    start: Starting date of the requested range (UNIX timestamp, default
+      value is December 1, 2019).
+    end: Ending date of the requested range (UNIX timestamp, default
+      value is December 2, 2019).
+    period: Period for one candle in seconds (Half-hour candles by
+      default).
+    data_folder: Folder where to save market data.
+  '''
+
+  if not os.path.exists(data_folder):
+    os.makedirs(data_folder)
+
+  for currency in currencies:
+    candles = request(currency, period, start, end)
+    df = candles_to_df(candles)
+    save_csv(df, f"{data_folder}/{currency}.csv")
 
 
 if __name__ == '__main__':

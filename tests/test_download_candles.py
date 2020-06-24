@@ -1,3 +1,4 @@
+import os
 import pytest
 import pandas as pd
 from xchg import download_sample
@@ -33,19 +34,10 @@ def test_candles():
 
 @pytest.fixture
 def test_dataframe():
-  d = dict(
-    {
-      'date': [1575158400, 1575160200],
-      'high': [0.02009497, 0.02014813],
-      'low': [0.020021, 0.02007299],
-      'open': [0.02007299, 0.02008427],
-      'close': [0.02008, 0.02012469],
-      'volume': [2.83754783, 0.15556988],
-      'quoteVolume': [141.51364588, 7.73633777],
-      'weightedAverage': [0.0200514, 0.02010898]
-    }
-  )
-  return pd.DataFrame(data=d).set_index('date')
+  return pd.DataFrame([
+        [1575158400, 0.02009497, 0.020021, 0.02007299, 0.02008, 2.83754783, 141.51364588, 0.0200514],
+        [1575160200, 0.02014813, 0.02007299, 0.02008427, 0.02012469, 0.15556988, 7.73633777, 0.02010898]
+    ], columns=['date', 'high', 'low', 'open', 'close', 'volume', 'quoteVolume', 'weightedAverage']).set_index('date')
 
 
 @pytest.fixture
@@ -74,9 +66,16 @@ def test_save_csv(test_dataframe, tmp_path, csv_file):
   with open(filepath, 'r') as f:
     csv = f.read()
   assert csv_file == csv
-  
 
+  
 def test_request(test_candles):
   '''Test request to Poloniex.'''
   candles = download_sample.request('ETH', 1800, 1575158400, 1575160200)
   assert candles == test_candles
+
+
+def test_main(tmp_path):
+  '''Test main function.'''
+  path = tmp_path / 'sample_data'
+  download_sample.main(data_folder=path)
+  assert set(os.listdir(path)) == {'ETH.csv', 'ETC.csv', 'XMR.csv', 'LTC.csv'}
