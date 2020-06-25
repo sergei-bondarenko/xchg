@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 '''This script downloads candles of selected cryptocurrencies from
 poloniex.com and saves them into csv files.
 '''
@@ -73,6 +71,8 @@ def main(currencies=['ETH', 'ETC', 'XMR', 'LTC'], start=1575158400,
         candles = request(currency, period, start, end)
         df = candles_to_df(candles)
         save_csv(df, f"{data_folder}/{currency}.csv")
+
+    print(f"Market data saved to {data_folder}.")
 
 
 if __name__ == '__main__':
