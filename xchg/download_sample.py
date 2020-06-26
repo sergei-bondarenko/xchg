@@ -7,7 +7,7 @@ import pandas as pd
 from poloniex import Poloniex
 
 
-def request(currency, period, start, end):
+def request(currency: str, period: int, start: int, end: int) -> list:
     '''Get candles data from Poloniex exchange for a specified currency
     relative to BTC.
 
@@ -24,13 +24,13 @@ def request(currency, period, start, end):
     return polo.returnChartData(pair, period, start=start, end=end)
 
 
-def candles_to_df(candles):
+def candles_to_df(candles: list) -> pd.core.frame.DataFrame:
     '''Converts list of candles to a Pandas DataFrame.
 
     Args:
         candles: List of candles.
 
-    Returns Pandas DataFrame.
+    Returns Pandas DataFrame filled with candles.
     '''
     return pd.DataFrame(candles, columns=[
             'date', 'high', 'low', 'open', 'close',
@@ -38,7 +38,7 @@ def candles_to_df(candles):
         ]).set_index('date')
 
 
-def save_csv(df, filepath):
+def save_csv(df: pd.core.frame.DataFrame, filepath: str):
     '''Saves Pandas DataFrame to a csv file.
 
     Args:
@@ -48,8 +48,11 @@ def save_csv(df, filepath):
     df.to_csv(filepath)
 
 
-def main(currencies=['ETH', 'ETC', 'XMR', 'LTC'], start=1575158400,
-         end=1575244800, period=1800, data_folder='sample_data'):
+def main(currencies: list = ['ETH', 'ETC', 'XMR', 'LTC'],
+         start: int = 1575158400,
+         end: int = 1575244800,
+         period: int = 1800,
+         data_folder: int = 'sample_data'):
     '''Download candles for specified currencies and range and save them
     to a separate csv files.
 

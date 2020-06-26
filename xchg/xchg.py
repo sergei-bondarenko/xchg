@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 
 
-def read_market(data_path, currencies):
+def read_market(data_path: str, currencies: list) -> np.ndarray:
     '''Read csv files with candles and compose ndarray.
 
     Args:
