@@ -21,4 +21,4 @@ def read_csv(filepath: str) -> pd.core.frame.DataFrame:
 
     Returns Pandas DataFrame with candles.
     '''
-    return pd.read_csv(filepath)
+    return pd.read_csv(filepath).set_index('date')

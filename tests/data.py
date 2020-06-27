@@ -72,8 +72,8 @@ def test_dataframe() -> pd.core.frame.DataFrame:
 
 
 @pytest.fixture
-def csv_file() -> str:
-    '''Two testing candles in csv string.'''
+def csv_content() -> str:
+    '''Two testing candles in a csv string.'''
     return ('date,high,low,open,close,volume,quoteVolume,weightedAverage\n'
             + '1575158400,0.02009497,0.020021,0.02007299,0.02008,2.83754783,'
             + '141.51364588,0.0200514\n'
