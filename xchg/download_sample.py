@@ -67,7 +67,3 @@ def main(currencies: list = ['ETH', 'ETC', 'XMR', 'LTC'],
         save_csv(df, f"{data_folder}/{currency}.csv")
 
     print(f"Market data saved to {data_folder}.")
-
-
-if __name__ == '__main__':
-    main()
