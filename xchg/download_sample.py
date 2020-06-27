@@ -5,6 +5,7 @@ poloniex.com and saves them into csv files.
 import os
 import pandas as pd
 from poloniex import Poloniex
+from .common import save_csv
 
 
 def request(currency: str, period: int, start: int, end: int) -> list:
@@ -36,16 +37,6 @@ def candles_to_df(candles: list) -> pd.core.frame.DataFrame:
             'date', 'high', 'low', 'open', 'close',
             'volume', 'quoteVolume', 'weightedAverage'
         ]).set_index('date')
-
-
-def save_csv(df: pd.core.frame.DataFrame, filepath: str):
-    '''Saves Pandas DataFrame to a csv file.
-
-    Args:
-        df: Pandas DataFrame.
-        filepath: Path of the csv file.
-    '''
-    df.to_csv(filepath)
 
 
 def main(currencies: list = ['ETH', 'ETC', 'XMR', 'LTC'],
