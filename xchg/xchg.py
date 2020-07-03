@@ -1,15 +1,15 @@
 '''Simulator of a currency exchange.'''
 
 import numpy as np
-from common import read_csv
+from .common import read_csv
 
 
 def read_market(data_path: str, currencies: list) -> np.ndarray:
     '''Read csv files with candles and compose Numpy ndarray.
 
     Args:
-      data_path: Where csv files with data are stored.
-      currencies: List of currecies to use.
+        data_path: Where csv files with data are stored.
+        currencies: List of currecies to use.
 
     Returns Numpy ndarray containing all candles for all currencies.
     '''
