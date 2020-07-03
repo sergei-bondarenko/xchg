@@ -1,10 +1,10 @@
 '''Test data.'''
 
-import pytest
 import pandas as pd
+from pytest import fixture
 
 
-@pytest.fixture
+@fixture
 def test_candles() -> list:
     '''Two test candles.'''
     return list(
@@ -33,7 +33,7 @@ def test_candles() -> list:
     )
 
 
-@pytest.fixture
+@fixture
 def test_dataframe() -> pd.core.frame.DataFrame:
     '''Two test candles in the DataFrame.'''
     candles = list([
@@ -71,9 +71,9 @@ def test_dataframe() -> pd.core.frame.DataFrame:
     return pd.DataFrame(candles, columns=columns).set_index('date')
 
 
-@pytest.fixture
+@fixture
 def csv_content() -> str:
-    '''Two testing candles in a csv string.'''
+    '''Two testing candles in a CSV string.'''
     return ('date,high,low,open,close,volume,quoteVolume,weightedAverage\n'
             + '1575158400,0.02009497,0.020021,0.02007299,0.02008,2.83754783,'
             + '141.51364588,0.0200514\n'
