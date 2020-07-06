@@ -1,6 +1,5 @@
 '''Test data.'''
 
-import numpy as np
 import pandas as pd
 from pytest import fixture
 
@@ -97,13 +96,19 @@ def csv_market() -> str:
 
 
 @fixture
-def ndarray_market() -> str:
-    '''Three currencies market data in a Numpy ndarray form.'''
-    return np.array([[[0.02009497, 0.020021, 0.02007299, 0.02008],
-                      [0.02014813, 0.02007299, 0.02008427, 0.02012469]],
-
-                     [[0.12009497, 0.120021, 0.12007299, 0.12008],
-                      [0.12014813, 0.12007299, 0.12008427, 0.12012469]],
-
-                     [[0.22009497, 0.220021, 0.22007299, 0.22008],
-                      [0.22014813, 0.22007299, 0.22008427, 0.22012469]]])
+def dataframe_market() -> pd.core.frame.DataFrame:
+    '''Three currencies market data in a multi-index Pandas DataFrame form.'''
+    d = {
+        'currency': ['cur0', 'cur0', 'cur1', 'cur1', 'cur2', 'cur2'],
+        'date': [1575158400, 1575160200, 1575158400, 1575160200, 1575158400,
+                 1575160200],
+        'high': [0.02009497, 0.02014813, 0.12009497, 0.12014813, 0.22009497,
+                 0.22014813],
+        'low': [0.020021, 0.02007299, 0.120021, 0.12007299, 0.220021,
+                0.22007299],
+        'open': [0.02007299, 0.02008427, 0.12007299, 0.12008427, 0.22007299,
+                 0.22008427],
+        'close': [0.02008, 0.02012469, 0.12008, 0.12012469, 0.22008,
+                  0.22012469]
+    }
+    return pd.DataFrame(data=d).set_index(['currency', 'date'])
