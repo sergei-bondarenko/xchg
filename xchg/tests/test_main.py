@@ -19,5 +19,5 @@ def test_read_market(csv_market: tuple, tmp_path: str,
         with open(filepath, 'w') as f:
             f.write(candles)
     pd.testing.assert_frame_equal(
-        read_market(tmp_path, ['cur0', 'cur1', 'cur2']),
+        read_market(tmp_path),
         dataframe_market)

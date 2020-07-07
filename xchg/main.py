@@ -1,23 +1,25 @@
 '''Simulator of a currency exchange.'''
 
 import pandas as pd
+from os import path
+from os import listdir
 from .common import read_csv
 
 
-def read_market(data_path: str, currencies: list) -> pd.core.frame.DataFrame:
-    '''Read csv files with candles and compose a multi-index Pandas DataFrame.
+def read_market(data_path: str) -> pd.core.frame.DataFrame:
+    '''Read all csv files with candles inside the directory and compose
+    a multi-index Pandas DataFrame.
 
     Args:
         data_path: Where csv files with data are stored.
-        currencies: List of currecies to use.
 
     Returns multi-index Pandas DataFrame containing all candles for all
     currencies.
     '''
     market = None
-    for idx, currency in enumerate(sorted(currencies)):
-        df = read_csv(f"{data_path}/{currency}.csv")
-        df['currency'] = currency
+    for idx, filename in enumerate(sorted(listdir(data_path))):
+        df = read_csv(path.join(data_path, filename))
+        df['currency'] = path.splitext(filename)[0]
         market = pd.concat([market, df])
     market = market.set_index('currency', append=True)
     market = market.reorder_levels(['currency', 'date'], axis=0)
