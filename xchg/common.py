@@ -10,7 +10,7 @@ def save_csv(df: pd.core.frame.DataFrame, filepath: str):
         df: Pandas DataFrame.
         filepath: Path of the csv file.
     '''
-    df.to_csv(filepath)
+    df.to_csv(filepath, index=False)
 
 
 def read_csv(filepath: str) -> pd.core.frame.DataFrame:
@@ -21,4 +21,4 @@ def read_csv(filepath: str) -> pd.core.frame.DataFrame:
 
     Returns Pandas DataFrame with candles.
     '''
-    return pd.read_csv(filepath).set_index('date')
+    return pd.read_csv(filepath)

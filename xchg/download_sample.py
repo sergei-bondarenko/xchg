@@ -36,7 +36,7 @@ def candles_to_df(candles: list) -> pd.core.frame.DataFrame:
     return pd.DataFrame(candles, columns=[
             'date', 'high', 'low', 'open', 'close',
             'volume', 'quoteVolume', 'weightedAverage'
-        ]).set_index('date')
+        ])
 
 
 def main(currencies: list = ['ETH', 'ETC', 'XMR', 'LTC'],

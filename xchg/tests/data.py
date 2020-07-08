@@ -68,7 +68,7 @@ def test_dataframe() -> pd.core.frame.DataFrame:
         'quoteVolume',
         'weightedAverage'
     ])
-    return pd.DataFrame(candles, columns=columns).set_index('date')
+    return pd.DataFrame(candles, columns=columns)
 
 
 @fixture
@@ -97,9 +97,8 @@ def csv_market() -> str:
 
 @fixture
 def dataframe_market() -> pd.core.frame.DataFrame:
-    '''Three currencies market data in a multi-index Pandas DataFrame form.'''
+    '''Three currencies market data in a Pandas DataFrame form.'''
     d = {
-        'currency': ['cur0', 'cur0', 'cur1', 'cur1', 'cur2', 'cur2'],
         'date': [1575158400, 1575160200, 1575158400, 1575160200, 1575158400,
                  1575160200],
         'high': [0.02009497, 0.02014813, 0.12009497, 0.12014813, 0.22009497,
@@ -109,6 +108,7 @@ def dataframe_market() -> pd.core.frame.DataFrame:
         'open': [0.02007299, 0.02008427, 0.12007299, 0.12008427, 0.22007299,
                  0.22008427],
         'close': [0.02008, 0.02012469, 0.12008, 0.12012469, 0.22008,
-                  0.22012469]
+                  0.22012469],
+        'currency': ['cur0', 'cur0', 'cur1', 'cur1', 'cur2', 'cur2'],
     }
-    return pd.DataFrame(data=d).set_index(['currency', 'date'])
+    return pd.DataFrame(data=d, index=[0, 1, 0, 1, 0, 1])

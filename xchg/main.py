@@ -8,12 +8,12 @@ from .common import read_csv
 
 def read_market(data_path: str) -> pd.core.frame.DataFrame:
     '''Read all csv files with candles inside the directory and compose
-    a multi-index Pandas DataFrame.
+    a Pandas DataFrame.
 
     Args:
         data_path: Where csv files with data are stored.
 
-    Returns multi-index Pandas DataFrame containing all candles for all
+    Returns a Pandas DataFrame containing all candles for all
     currencies.
     '''
     market = None
@@ -21,17 +21,16 @@ def read_market(data_path: str) -> pd.core.frame.DataFrame:
         df = read_csv(path.join(data_path, filename))
         df['currency'] = path.splitext(filename)[0]
         market = pd.concat([market, df])
-    market = market.set_index('currency', append=True)
-    market = market.reorder_levels(['currency', 'date'], axis=0)
     return market
 
 
-# def next_step() -> dict:
+# def next_step(market) -> dict:
 #     '''Go to the next step in timeline, it yelds one new candle for each
 #        currency.
 #
 #     Args:
-#        market: The whole market from csv files represented as Numpy ndarray.
+#        market: The whole market from csv files represented as a Pandas
+#     DataFrame.
 #
 #     Returns dictionary with currencies and their prices.
 #     '''
@@ -40,3 +39,4 @@ def read_market(data_path: str) -> pd.core.frame.DataFrame:
 #     else:
 #         step += 1
 #     yield market[:,step,:]
+# read_market('.').loc[0].set_index('currency').to_dict('index')
