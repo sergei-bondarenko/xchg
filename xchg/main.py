@@ -24,19 +24,15 @@ def read_market(data_path: str) -> pd.core.frame.DataFrame:
     return market
 
 
-# def next_step(market) -> dict:
-#     '''Go to the next step in timeline, it yelds one new candle for each
-#        currency.
-#
-#     Args:
-#        market: The whole market from csv files represented as a Pandas
-#     DataFrame.
-#
-#     Returns dictionary with currencies and their prices.
-#     '''
-#     if step == None:
-#         step = 0
-#     else:
-#         step += 1
-#     yield market[:,step,:]
-# read_market('.').loc[0].set_index('currency').to_dict('index')
+def next_step(data_path: str) -> dict:
+    '''Go to the next step in timeline, it yelds a one new candle for each
+       currency.
+
+    Args:
+       data_path: Where csv files with data are stored.
+
+    Returns dictionary with currencies and their prices.
+    '''
+    market = read_market(data_path)
+    for step in market.index.unique():
+        yield market.loc[step].set_index('currency').to_dict('index')

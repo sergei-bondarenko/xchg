@@ -112,3 +112,61 @@ def dataframe_market() -> pd.core.frame.DataFrame:
         'currency': ['cur0', 'cur0', 'cur1', 'cur1', 'cur2', 'cur2'],
     }
     return pd.DataFrame(data=d, index=[0, 1, 0, 1, 0, 1])
+
+
+@fixture
+def dataframe_market2() -> pd.core.frame.DataFrame:
+    '''The same as dataframe_market but in another form. This can be improved
+    if a proper conversion between dataframe_market and dataframe_market2 will
+    be found.'''
+    d = {
+        'cur0': {
+            0: {
+                'date': 1575158400,
+                'high': 0.02009497,
+                'low': 0.020021,
+                'open': 0.02007299,
+                'close': 0.02008
+            },
+            1: {
+                'date': 1575160200,
+                'high': 0.02014813,
+                'low': 0.02007299,
+                'open': 0.02008427,
+                'close': 0.02012469
+            }
+        },
+        'cur1': {
+            0: {
+                'date': 1575158400,
+                'high': 0.12009497,
+                'low': 0.120021,
+                'open': 0.12007299,
+                'close': 0.12008
+            },
+            1: {
+                'date': 1575160200,
+                'high': 0.12014813,
+                'low': 0.12007299,
+                'open': 0.12008427,
+                'close': 0.12012469
+            }
+        },
+        'cur2': {
+            0: {
+                'date': 1575158400,
+                'high': 0.22009497,
+                'low': 0.220021,
+                'open': 0.22007299,
+                'close': 0.22008
+            },
+            1: {
+                'date': 1575160200,
+                'high': 0.22014813,
+                'low': 0.22007299,
+                'open': 0.22008427,
+                'close': 0.22012469
+            }
+        }
+    }
+    return pd.DataFrame(d)
