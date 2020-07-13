@@ -3,10 +3,10 @@
 import pandas as pd
 from os import path
 from os import listdir
-from .common import read_csv
+from .common import _read_csv
 
 
-def read_market(data_path: str) -> pd.core.frame.DataFrame:
+def _read_market(data_path: str) -> pd.core.frame.DataFrame:
     '''Read all csv files with candles inside the directory and compose
     a Pandas DataFrame.
 
@@ -18,7 +18,7 @@ def read_market(data_path: str) -> pd.core.frame.DataFrame:
     '''
     market = None
     for idx, filename in enumerate(sorted(listdir(data_path))):
-        df = read_csv(path.join(data_path, filename))
+        df = _read_csv(path.join(data_path, filename))
         df['currency'] = path.splitext(filename)[0]
         market = pd.concat([market, df])
     return market
@@ -33,6 +33,6 @@ def next_step(data_path: str) -> dict:
 
     Returns dictionary with currencies and their prices.
     '''
-    market = read_market(data_path)
+    market = _read_market(data_path)
     for step in market.index.unique():
         yield market.loc[step].set_index('currency').to_dict('index')

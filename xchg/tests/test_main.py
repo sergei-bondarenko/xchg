@@ -1,7 +1,7 @@
 '''Unit tests for xchg.py.'''
 
 import pandas as pd
-from xchg.main import read_market
+from xchg.main import _read_market
 from xchg.main import next_step
 
 
@@ -20,8 +20,7 @@ def test_read_market(csv_market: tuple, tmp_path: str,
         with open(filepath, 'w') as f:
             f.write(candles)
     pd.testing.assert_frame_equal(
-        read_market(tmp_path),
-        dataframe_market)
+        _read_market(tmp_path), dataframe_market)
 
 
 def test_next_step(csv_market: tuple, tmp_path: str,
@@ -42,5 +41,4 @@ def test_next_step(csv_market: tuple, tmp_path: str,
     for candle in next_step(tmp_path):
         candles.append(candle)
     pd.testing.assert_frame_equal(
-        pd.DataFrame(candles),
-        dataframe_market2)
+        pd.DataFrame(candles), dataframe_market2)

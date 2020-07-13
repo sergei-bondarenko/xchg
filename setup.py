@@ -21,6 +21,6 @@ setup(
          'pytest-flake8'
      ],
      entry_points={
-         'console_scripts': ['download_sample=xchg.download_sample:main'],
+         'console_scripts': ['download_sample=xchg.download_sample:_main'],
      }
 )

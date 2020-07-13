@@ -3,7 +3,7 @@
 import pandas as pd
 
 
-def save_csv(df: pd.core.frame.DataFrame, filepath: str):
+def _save_csv(df: pd.core.frame.DataFrame, filepath: str):
     '''Saves Pandas DataFrame to a csv file.
 
     Args:
@@ -13,7 +13,7 @@ def save_csv(df: pd.core.frame.DataFrame, filepath: str):
     df.to_csv(filepath, index=False)
 
 
-def read_csv(filepath: str) -> pd.core.frame.DataFrame:
+def _read_csv(filepath: str) -> pd.core.frame.DataFrame:
     '''Read csv file into Pandas DataFrame.
 
     Args:

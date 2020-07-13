@@ -1,8 +1,8 @@
 '''Unit tests for common.py.'''
 
 import pandas as pd
-from xchg.common import save_csv
-from xchg.common import read_csv
+from xchg.common import _save_csv
+from xchg.common import _read_csv
 
 
 def test_save_csv(test_dataframe: pd.core.frame.DataFrame,
@@ -15,7 +15,7 @@ def test_save_csv(test_dataframe: pd.core.frame.DataFrame,
         csv_content_one: Expected content of a CSV file.
     '''
     filepath = tmp_path / 'test.csv'
-    save_csv(test_dataframe, filepath)
+    _save_csv(test_dataframe, filepath)
     with open(filepath, 'r') as f:
         csv = f.read()
     assert csv_content == csv
@@ -33,5 +33,5 @@ def test_read_csv(test_dataframe: pd.core.frame.DataFrame,
     filepath = tmp_path / 'test.csv'
     with open(filepath, 'w') as f:
         f.write(csv_content)
-    pd.testing.assert_frame_equal(read_csv(filepath), test_dataframe,
+    pd.testing.assert_frame_equal(_read_csv(filepath), test_dataframe,
                                   check_exact=True)

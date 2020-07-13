@@ -5,10 +5,10 @@ poloniex.com and saves them into csv files.
 import os
 import pandas as pd
 from poloniex import Poloniex
-from .common import save_csv
+from .common import _save_csv
 
 
-def request(currency: str, period: int, start: int, end: int) -> list:
+def _request(currency: str, period: int, start: int, end: int) -> list:
     '''Get candles data from Poloniex exchange for a specified currency
     relative to BTC.
 
@@ -25,7 +25,7 @@ def request(currency: str, period: int, start: int, end: int) -> list:
     return polo.returnChartData(pair, period, start=start, end=end)
 
 
-def candles_to_df(candles: list) -> pd.core.frame.DataFrame:
+def _candles_to_df(candles: list) -> pd.core.frame.DataFrame:
     '''Converts list of candles to a Pandas DataFrame.
 
     Args:
@@ -39,11 +39,11 @@ def candles_to_df(candles: list) -> pd.core.frame.DataFrame:
         ])
 
 
-def main(currencies: list = ['ETH', 'ETC', 'XMR', 'LTC'],
-         start: int = 1575158400,
-         end: int = 1575244800,
-         period: int = 1800,
-         data_folder: int = 'sample_data'):
+def _main(currencies: list = ['ETH', 'ETC', 'XMR', 'LTC'],
+          start: int = 1575158400,
+          end: int = 1575244800,
+          period: int = 1800,
+          data_folder: int = 'sample_data'):
     '''Download candles for specified currencies and range and save them
     to a separate csv files.
 
@@ -62,8 +62,8 @@ def main(currencies: list = ['ETH', 'ETC', 'XMR', 'LTC'],
         os.makedirs(data_folder)
 
     for currency in currencies:
-        candles = request(currency, period, start, end)
-        df = candles_to_df(candles)
-        save_csv(df, f"{data_folder}/{currency}.csv")
+        candles = _request(currency, period, start, end)
+        df = _candles_to_df(candles)
+        _save_csv(df, f"{data_folder}/{currency}.csv")
 
     print(f"Market data saved to {data_folder}.")
