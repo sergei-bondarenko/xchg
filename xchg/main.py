@@ -36,3 +36,21 @@ def next_step(data_path: str) -> dict:
     market = _read_market(data_path)
     for step in market.index.unique():
         yield market.loc[step].set_index('currency').to_dict('index')
+
+
+def capital(candles: dict, balance: dict) -> float:
+    '''Returns current capital: sum of all currencies converted to cash
+    (without fees).
+
+    Args:
+        candles: Current candles as result of next_step function.
+        balance: Dictionary of currencies and values representing a current
+            balance.
+    '''
+    capital = 0
+    for currency, amount in balance.items():
+        if currency == 'cash':
+            capital += amount
+        else:
+            capital += amount * candles[currency]['close']
+    return capital

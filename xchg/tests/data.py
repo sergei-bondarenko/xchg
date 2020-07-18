@@ -5,7 +5,7 @@ from pytest import fixture
 
 
 @fixture
-def test_candles() -> list:
+def test_list_candles() -> list:
     '''Two test candles.'''
     return list(
         [
@@ -34,7 +34,7 @@ def test_candles() -> list:
 
 
 @fixture
-def test_dataframe() -> pd.core.frame.DataFrame:
+def test_pandas_dataframe() -> pd.core.frame.DataFrame:
     '''Two test candles in the DataFrame.'''
     candles = list([
         [
@@ -72,7 +72,7 @@ def test_dataframe() -> pd.core.frame.DataFrame:
 
 
 @fixture
-def csv_content() -> str:
+def test_csv_candles() -> str:
     '''Two testing candles in a CSV string.'''
     return ('date,high,low,open,close,volume,quoteVolume,weightedAverage\n'
             + '1575158400,0.02009497,0.020021,0.02007299,0.02008,2.83754783,'
@@ -82,7 +82,7 @@ def csv_content() -> str:
 
 
 @fixture
-def csv_market() -> str:
+def test_csv_market() -> str:
     '''Three currencies market data in a csv form.'''
     return (('date,high,low,open,close\n'
             + '1575158400,0.02009497,0.020021,0.02007299,0.02008\n'
@@ -96,7 +96,7 @@ def csv_market() -> str:
 
 
 @fixture
-def dataframe_market() -> pd.core.frame.DataFrame:
+def test_dataframe_market() -> pd.core.frame.DataFrame:
     '''Three currencies market data in a Pandas DataFrame form.'''
     d = {
         'date': [1575158400, 1575160200, 1575158400, 1575160200, 1575158400,
@@ -115,10 +115,10 @@ def dataframe_market() -> pd.core.frame.DataFrame:
 
 
 @fixture
-def dataframe_market2() -> pd.core.frame.DataFrame:
-    '''The same as dataframe_market but in another form. This can be improved
-    if a proper conversion between dataframe_market and dataframe_market2 will
-    be found.'''
+def test_dataframe_market2() -> pd.core.frame.DataFrame:
+    '''The same as test_dataframe_market but in another form. This can be
+    improved if a proper conversion between test_dataframe_market and
+    test_dataframe_market2 will be found.'''
     d = {
         'cur0': {
             0: {
@@ -170,3 +170,15 @@ def dataframe_market2() -> pd.core.frame.DataFrame:
         }
     }
     return pd.DataFrame(d)
+
+
+@fixture
+def test_balance() -> dict:
+    '''Test balance dictionary.'''
+    return {'cash': 0.5, 'cur0': 0.1, 'cur1': 0.25, 'cur2': 0.25}
+
+
+@fixture
+def test_capital() -> float:
+    '''Test result of capital function.'''
+    return 0.587048
