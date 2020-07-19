@@ -182,3 +182,12 @@ def test_balance() -> dict:
 def test_capital() -> float:
     '''Test result of capital function.'''
     return 0.587048
+
+
+@fixture
+def test_portfolio() -> dict:
+    '''Test portfolio dictionary.'''
+    return {'cash': 0.8517191098513239,
+            'cur0': 0.003420503945162917,
+            'cur1': 0.05113721535547349,
+            'cur2': 0.09372317084803967}

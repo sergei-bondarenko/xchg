@@ -4,6 +4,7 @@ import pandas as pd
 from xchg.main import _read_market
 from xchg.main import next_step
 from xchg.main import capital
+from xchg.main import portfolio
 
 
 def test_read_market(test_csv_market: tuple, tmp_path: str,
@@ -57,3 +58,17 @@ def test_capital(test_dataframe_market2: pd.core.frame.DataFrame,
     '''
     candles = test_dataframe_market2.loc[0].to_dict()
     assert capital(candles, test_balance) == test_capital
+
+
+def test_portfolio(test_dataframe_market2: pd.core.frame.DataFrame,
+                   test_balance: dict, test_portfolio: dict):
+    '''Test capital function.
+
+    Args:
+        test_dataframe_market2: Test market data in a multi-index Pandas
+            DataFrame form.
+        test_balance: Test balance dictionary.
+        test_portfolio: Test result of portfolio function.
+    '''
+    candles = test_dataframe_market2.loc[0].to_dict()
+    assert portfolio(candles, test_balance) == test_portfolio

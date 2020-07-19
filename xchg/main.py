@@ -39,7 +39,7 @@ def next_step(data_path: str) -> dict:
 
 
 def capital(candles: dict, balance: dict) -> float:
-    '''Returns current capital: sum of all currencies converted to cash
+    '''Returns current capital - sum of all currencies converted to cash
     (without fees).
 
     Args:
@@ -54,3 +54,25 @@ def capital(candles: dict, balance: dict) -> float:
         else:
             capital += amount * candles[currency]['close']
     return capital
+
+
+def portfolio(candles: dict, balance: dict) -> dict:
+    '''Returns current portfolio - percentage of capital by each currency.
+
+    Args:
+        candles: Current candles as result of next_step function.
+        balance: Dictionary of currencies and values representing a current
+            balance.
+    '''
+    cap = capital(candles, balance)
+    print(cap)
+    print(candles)
+    print(balance)
+    portfolio = {}
+    for currency, amount in balance.items():
+        if currency == 'cash':
+            portfolio[currency] = balance[currency] / cap
+        else:
+            portfolio[currency] = (balance[currency]
+                                   * candles[currency]['close'] / cap)
+    return portfolio
