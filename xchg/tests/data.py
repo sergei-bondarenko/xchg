@@ -179,6 +179,15 @@ def test_balance() -> dict:
 
 
 @fixture
+def test_balance_after_buy() -> dict:
+    '''Test balance after buy.'''
+    return {'cash': 0.12895279999999998,
+            'cur0': 0.1,
+            'cur1': 3.25,
+            'cur2': 0.25}
+
+
+@fixture
 def test_capital() -> float:
     '''Test result of capital function.'''
     return 0.587048

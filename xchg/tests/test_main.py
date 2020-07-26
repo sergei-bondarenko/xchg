@@ -5,6 +5,7 @@ from xchg.main import _read_market
 from xchg.main import next_step
 from xchg.main import capital
 from xchg.main import portfolio
+from xchg.main import buy
 
 
 def test_read_market(test_csv_market: tuple, tmp_path: str,
@@ -72,3 +73,29 @@ def test_portfolio(test_dataframe_market2: pd.core.frame.DataFrame,
     '''
     candles = test_dataframe_market2.loc[0].to_dict()
     assert portfolio(candles, test_balance) == test_portfolio
+
+
+def test_buy(test_dataframe_market2: pd.core.frame.DataFrame,
+             test_balance: dict,
+             test_balance_after_buy: dict):
+    '''Test buy function.
+
+    Args:
+        test_dataframe_market2: Test market data in a multi-index Pandas
+            DataFrame form.
+        test_balance: Test balance dictionary.
+        test_balance_after_buy: Test balance after buy.
+    '''
+    candles = test_dataframe_market2.loc[0].to_dict()
+
+    # Test happy path.
+    assert buy(candles, test_balance, 'cur1', 3, 0.03, 0.001) \
+        == test_balance_after_buy
+
+    # Try to buy more than we have cash.
+    assert buy(candles, test_balance, 'cur1', 5, 0.03, 0.001) \
+        == test_balance
+
+    # Try to buy less than minimum order size.
+    assert buy(candles, test_balance, 'cur1', 3, 0.03, 10) \
+        == test_balance

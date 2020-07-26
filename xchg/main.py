@@ -46,6 +46,8 @@ def capital(candles: dict, balance: dict) -> float:
         candles: Current candles as result of next_step function.
         balance: Dictionary of currencies and values representing a current
             balance.
+
+    Returns float as a capital.
     '''
     capital = 0
     for currency, amount in balance.items():
@@ -57,17 +59,16 @@ def capital(candles: dict, balance: dict) -> float:
 
 
 def portfolio(candles: dict, balance: dict) -> dict:
-    '''Returns current portfolio - percentage of capital by each currency.
+    '''Returns current portfolio - proportion of capital by each currency.
 
     Args:
         candles: Current candles as result of next_step function.
         balance: Dictionary of currencies and values representing a current
             balance.
+
+    Returns dictionary as a portfolio.
     '''
     cap = capital(candles, balance)
-    print(cap)
-    print(candles)
-    print(balance)
     portfolio = {}
     for currency, amount in balance.items():
         if currency == 'cash':
@@ -76,3 +77,32 @@ def portfolio(candles: dict, balance: dict) -> dict:
             portfolio[currency] = (balance[currency]
                                    * candles[currency]['close'] / cap)
     return portfolio
+
+
+def buy(candles: dict, balance: dict, currency: str, amount: float,
+        fee: float, min_order_size: float) -> dict:
+    '''Buy currency.
+
+    Args:
+        candles: Current candles as result of next_step function.
+        balance: Dictionary of currencies and values representing a current
+            balance.
+        currency: Name of the currency.
+        amount: How much units of this currency to buy.
+        fee: What part of the trade volume will be paid as fee.
+        min_order_size: Minimum trade volume expressed in a base currency
+            (cash).
+
+    Returns a new balance after trade.
+    '''
+
+    result = balance.copy()
+    price = candles[currency]['close']
+    without_fee = price * amount
+    with_fee = without_fee * (1 + fee)
+
+    if with_fee <= balance['cash'] and without_fee >= min_order_size:
+        result['cash'] -= with_fee
+        result[currency] += amount
+
+    return result
