@@ -181,9 +181,18 @@ def test_balance() -> dict:
 @fixture
 def test_balance_after_buy() -> dict:
     '''Test balance after buy.'''
-    return {'cash': 0.12895279999999998,
+    return {'cash': 0.1289528,
             'cur0': 0.1,
             'cur1': 3.25,
+            'cur2': 0.25}
+
+
+@fixture
+def test_balance_after_sell() -> dict:
+    '''Test balance after buy.'''
+    return {'cash': 0.52377584,
+            'cur0': 0.1,
+            'cur1': 0.05,
             'cur2': 0.25}
 
 

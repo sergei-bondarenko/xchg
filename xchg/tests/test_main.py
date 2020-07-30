@@ -1,11 +1,13 @@
 '''Unit tests for xchg.py.'''
 
 import pandas as pd
+from pytest import approx
 from xchg.main import _read_market
 from xchg.main import next_step
 from xchg.main import capital
 from xchg.main import portfolio
 from xchg.main import buy
+from xchg.main import sell
 
 
 def test_read_market(test_csv_market: tuple, tmp_path: str,
@@ -90,12 +92,38 @@ def test_buy(test_dataframe_market2: pd.core.frame.DataFrame,
 
     # Test happy path.
     assert buy(candles, test_balance, 'cur1', 3, 0.03, 0.001) \
-        == test_balance_after_buy
+        == approx(test_balance_after_buy)
 
     # Try to buy more than we have cash.
     assert buy(candles, test_balance, 'cur1', 5, 0.03, 0.001) \
-        == test_balance
+        == approx(test_balance)
 
     # Try to buy less than minimum order size.
     assert buy(candles, test_balance, 'cur1', 3, 0.03, 10) \
-        == test_balance
+        == approx(test_balance)
+
+
+def test_sell(test_dataframe_market2: pd.core.frame.DataFrame,
+              test_balance: dict,
+              test_balance_after_sell: dict):
+    '''Test sell function.
+
+    Args:
+        test_dataframe_market2: Test market data in a multi-index Pandas
+            DataFrame form.
+        test_balance: Test balance dictionary.
+        test_balance_after_sell: Test balance after sell.
+    '''
+    candles = test_dataframe_market2.loc[0].to_dict()
+
+    # Test happy path.
+    assert sell(candles, test_balance, 'cur1', 0.2, 0.01, 0.001) \
+        == approx(test_balance_after_sell)
+
+    # Try to sell more than we have currency.
+    assert sell(candles, test_balance, 'cur1', 0.3, 0.01, 0.001) \
+        == approx(test_balance)
+
+    # Try to sell less than minimum order size.
+    assert sell(candles, test_balance, 'cur1', 0.2, 0.01, 10) \
+        == approx(test_balance)

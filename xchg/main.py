@@ -106,3 +106,32 @@ def buy(candles: dict, balance: dict, currency: str, amount: float,
         result[currency] += amount
 
     return result
+
+
+def sell(candles: dict, balance: dict, currency: str, amount: float,
+         fee: float, min_order_size: float) -> dict:
+    '''Sell currency.
+
+    Args:
+        candles: Current candles as result of next_step function.
+        balance: Dictionary of currencies and values representing a current
+            balance.
+        currency: Name of the currency.
+        amount: How much units of this currency to sell.
+        fee: What part of the trade volume will be paid as fee.
+        min_order_size: Minimum trade volume expressed in a base currency
+            (cash).
+
+    Returns a new balance after trade.
+    '''
+
+    result = balance.copy()
+    price = candles[currency]['close']
+    without_fee = price * amount
+    with_fee = without_fee * (1 - fee)
+
+    if amount <= balance[currency] and without_fee >= min_order_size:
+        result['cash'] += with_fee
+        result[currency] -= amount
+
+    return result
