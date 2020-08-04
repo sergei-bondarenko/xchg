@@ -1,5 +1,6 @@
 '''Simulator of a currency exchange.'''
 
+import numpy as np
 import pandas as pd
 from os import path
 from os import listdir
@@ -22,6 +23,30 @@ def _read_market(data_path: str) -> pd.core.frame.DataFrame:
         df['currency'] = path.splitext(filename)[0]
         market = pd.concat([market, df])
     return market
+
+
+def _dict_to_array(dic: dict) -> np.ndarray:
+    '''Convert a dictionary to Numpy ndarray.
+
+    Args:
+        dic: A dictionary (e.g. balance, portfolio, etc.).
+
+    Returns a Numpy ndarray.
+    '''
+    return np.array(list(dic.values()))
+
+
+def _array_to_dict(arr: np.ndarray, currencies: tuple) -> dict:
+    '''Convert a Numpy ndarray to a dictionary (e.g. balance, portfolio,
+    etc.).
+
+    Args:
+        arr: A Numpy ndarray.
+        currencies: A tuple of currencies.
+
+    Returns a dictionary.
+    '''
+    return dict(zip(currencies, arr))
 
 
 def next_step(data_path: str) -> dict:
@@ -84,7 +109,7 @@ def buy(candles: dict, balance: dict, currency: str, amount: float,
     '''Buy currency.
 
     Args:
-        candles: Current candles as result of next_step function.
+        candles: Current candles.
         balance: Dictionary of currencies and values representing a current
             balance.
         currency: Name of the currency.
@@ -113,7 +138,7 @@ def sell(candles: dict, balance: dict, currency: str, amount: float,
     '''Sell currency.
 
     Args:
-        candles: Current candles as result of next_step function.
+        candles: Current candles.
         balance: Dictionary of currencies and values representing a current
             balance.
         currency: Name of the currency.
@@ -135,3 +160,44 @@ def sell(candles: dict, balance: dict, currency: str, amount: float,
         result[currency] -= amount
 
     return result
+
+
+def make_portfolio(candles: dict, balance: dict, fee: float,
+                   target_portfolio: dict) -> dict:
+    '''Provide an answer how to make a desired portfolio.
+
+    Args:
+        candles: Current candles.
+        balance: Dictionary of currencies and values representing a current
+            balance.
+        fee: What part of the trade volume will be paid as fee.
+        target_portfolio: A desired portfolio.
+
+    Returns a dictionary with values of how much of each currency to buy
+    (positive number) or sell (negative) in order to achieve a desired
+    portfolio.
+    '''
+
+    prices = np.array([1.0]
+                      + [candles[currency]['close'] for currency in candles])
+    cur_balance = _dict_to_array(balance)
+    cur_capital = capital(candles, balance)
+    cur_portfolio = cur_balance * prices / np.sum(cur_balance * prices)
+    tar_portfolio = _dict_to_array(target_portfolio.copy())
+
+    # Calculate a capital change after trading.
+    cc0 = 1
+    cc1 = 1 - 2 * fee + fee ** 2
+    while abs(cc1 - cc0) > 1e-10:
+        cc0 = cc1
+        cc1 = (1 - fee * cur_portfolio[0] - (2 * fee - fee ** 2)
+               * np.sum(np.maximum(cur_portfolio[1:]
+                        - cc1 * tar_portfolio[1:], 0))) \
+            / (1 - fee * tar_portfolio[0])
+
+    # A capital after trade.
+    tar_capital = cur_capital * cc1
+
+    tar_balance = tar_capital * tar_portfolio / prices
+
+    return _array_to_dict(tar_balance - cur_balance, balance.keys())

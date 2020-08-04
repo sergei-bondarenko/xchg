@@ -1,13 +1,17 @@
 '''Unit tests for xchg.py.'''
 
+import numpy as np
 import pandas as pd
 from pytest import approx
 from xchg.main import _read_market
+from xchg.main import _dict_to_array
+from xchg.main import _array_to_dict
 from xchg.main import next_step
 from xchg.main import capital
 from xchg.main import portfolio
 from xchg.main import buy
 from xchg.main import sell
+from xchg.main import make_portfolio
 
 
 def test_read_market(test_csv_market: tuple, tmp_path: str,
@@ -26,6 +30,29 @@ def test_read_market(test_csv_market: tuple, tmp_path: str,
             f.write(candles)
     pd.testing.assert_frame_equal(
         _read_market(tmp_path), test_dataframe_market)
+
+
+def test_dict_to_array(test_balance: dict, test_balance_ndarray: np.ndarray):
+    '''Test conversion from a dictionary to a Numpy ndarray.
+
+    Args:
+        test_balance: A test balance dictionary.
+        test_balance_ndarray: A test balance ndarray.
+    '''
+    arr = _dict_to_array(test_balance)
+    np.testing.assert_array_equal(arr, test_balance_ndarray)
+
+
+def test_array_to_dict(test_balance: dict, test_balance_ndarray: np.ndarray):
+    '''Test conversion from a Numpy ndarray to a dictionary.
+
+    Args:
+        test_balance: A test balance dictionary.
+        test_balance_ndarray: A test balance ndarray.
+    '''
+    currencies = test_balance.keys()
+    dic = _array_to_dict(test_balance_ndarray, currencies)
+    assert dic == test_balance
 
 
 def test_next_step(test_csv_market: tuple, tmp_path: str,
@@ -127,3 +154,23 @@ def test_sell(test_dataframe_market2: pd.core.frame.DataFrame,
     # Try to sell less than minimum order size.
     assert sell(candles, test_balance, 'cur1', 0.2, 0.01, 10) \
         == approx(test_balance)
+
+
+def test_make_portfolio(test_dataframe_market2: pd.core.frame.DataFrame,
+                        test_balance: dict,
+                        target_portfolio: dict,
+                        test_balance_after_make_portfolio: dict):
+    '''Test make portfolio function.
+
+    Args:
+        test_dataframe_market2: Test market data in a multi-index Pandas
+            DataFrame form.
+        test_balance: Test balance dictionary.
+        target_portfolio: Target portfolio dictionary.
+        test_balance_after_make_portfolio: Test balance after make portfolio.
+    '''
+    with open('/tmp/res1.txt', 'w') as f:
+        f.write(f"{target_portfolio}")
+    candles = test_dataframe_market2.loc[0].to_dict()
+    assert test_balance_after_make_portfolio \
+        == make_portfolio(candles, test_balance, 0.01, target_portfolio)

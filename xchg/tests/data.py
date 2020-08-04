@@ -1,5 +1,6 @@
 '''Test data.'''
 
+import numpy as np
 import pandas as pd
 from pytest import fixture
 
@@ -176,6 +177,27 @@ def test_dataframe_market2() -> pd.core.frame.DataFrame:
 def test_balance() -> dict:
     '''Test balance dictionary.'''
     return {'cash': 0.5, 'cur0': 0.1, 'cur1': 0.25, 'cur2': 0.25}
+
+
+@fixture
+def target_portfolio() -> dict:
+    '''Target portfolio dictionary.'''
+    return {'cash': 0.1, 'cur0': 0.6, 'cur1': 0.3, 'cur2': 0.0}
+
+
+@fixture
+def test_balance_after_make_portfolio() -> dict:
+    '''Test balance after make portfolio.'''
+    return {'cash': -0.4418465363363363,
+            'cur0': 17.276532967230175,
+            'cur1': 1.2028680129163138,
+            'cur2': -0.25}
+
+
+@fixture
+def test_balance_ndarray() -> np.ndarray:
+    '''Test balance ndarray.'''
+    return np.array([0.5, 0.1, 0.25, 0.25])
 
 
 @fixture
