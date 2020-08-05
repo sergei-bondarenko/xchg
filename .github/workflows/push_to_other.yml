@@ -1,11 +1,9 @@
-name: Push to master
-
+name: Push to other branches
 on:
   push:
     branches:
       - !master
       - !gh-pages
-
 jobs:
   test:
     name: Run Tests
@@ -14,7 +12,8 @@ jobs:
       matrix:
         python-version: [3.6, 3.7, 3.8]
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
