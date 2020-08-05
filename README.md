@@ -1,7 +1,7 @@
 # Exchange Simulator
 [![Build Status](https://github.com/sergei-bondarenko/xchg/workflows/build/badge.svg?branch=master&event=push)](https://github.com/sergei-bondarenko/xchg/actions?query=workflow%3Abuild)
 [![codecov](https://codecov.io/gh/sergei-bondarenko/xchg/branch/master/graph/badge.svg)](https://codecov.io/gh/sergei-bondarenko/xchg)
-![Python Version](https://img.shields.io/pypi/pyversions/xchg.svg)](https://pypi.org/project/xchg/)
+[![Python Version](https://img.shields.io/pypi/pyversions/xchg.svg)](https://pypi.org/project/xchg/)
 
 Simulator of a currency exchange. It supports fees and minimum order amounts.
 
