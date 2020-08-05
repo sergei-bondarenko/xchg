@@ -21,7 +21,7 @@ setup(
     ],
     entry_points={
         'console_scripts': ['download_sample=xchg.download_sample:_main'],
-    }
+    },
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Programming Language :: Python :: 3',
