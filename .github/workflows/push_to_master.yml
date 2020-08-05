@@ -28,13 +28,27 @@ jobs:
         pytest --flake8
 
   doc:
-    name: Publish Package
+    name: Publish Documentation
     needs: test
     runs-on: ubuntu-latest
     steps:
-    - name: AAAAAAAAAA
+    - uses: actions/checkout@master
+      with:
+        persist-credentials: false
+        fetch-depth: 0
+    - name: Generate docs
       run: |
-        echo "WE HAVE PUBLISHED DOCS."
+        pdoc3 --html xchg -o docs
+    - name: Commit files
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git commit -m "Publish docs." -a
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: gh-pages
 
   publish:
     name: Publish Package
