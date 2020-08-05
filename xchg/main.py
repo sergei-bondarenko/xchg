@@ -14,8 +14,9 @@ def _read_market(data_path: str) -> pd.core.frame.DataFrame:
     Args:
         data_path: Where csv files with data are stored.
 
-    Returns a Pandas DataFrame containing all candles for all
-    currencies.
+    Returns:
+        A Pandas DataFrame containing all candles for all
+            currencies.
     '''
     market = None
     for idx, filename in enumerate(sorted(listdir(data_path))):
@@ -31,7 +32,8 @@ def _dict_to_array(dic: dict) -> np.ndarray:
     Args:
         dic: A dictionary (e.g. balance, portfolio, etc.).
 
-    Returns a Numpy ndarray.
+    Returns:
+        A Numpy ndarray.
     '''
     return np.array(list(dic.values()))
 
@@ -44,19 +46,21 @@ def _array_to_dict(arr: np.ndarray, currencies: tuple) -> dict:
         arr: A Numpy ndarray.
         currencies: A tuple of currencies.
 
-    Returns a dictionary.
+    Returns:
+        A dictionary.
     '''
     return dict(zip(currencies, arr))
 
 
 def next_step(data_path: str) -> dict:
     '''Go to the next step in timeline, it yelds a one new candle for each
-       currency.
+    currency.
 
     Args:
-       data_path: Where csv files with data are stored.
+        data_path: Where csv files with data are stored.
 
-    Returns dictionary with currencies and their prices.
+    Returns:
+        A dictionary with currencies and their prices.
     '''
     market = _read_market(data_path)
     for step in market.index.unique():
@@ -72,7 +76,8 @@ def capital(candles: dict, balance: dict) -> float:
         balance: Dictionary of currencies and values representing a current
             balance.
 
-    Returns float as a capital.
+    Returns:
+        A capital.
     '''
     capital = 0
     for currency, amount in balance.items():
@@ -91,7 +96,8 @@ def portfolio(candles: dict, balance: dict) -> dict:
         balance: Dictionary of currencies and values representing a current
             balance.
 
-    Returns dictionary as a portfolio.
+    Returns:
+        A portfolio.
     '''
     cap = capital(candles, balance)
     portfolio = {}
@@ -118,7 +124,8 @@ def buy(candles: dict, balance: dict, currency: str, amount: float,
         min_order_size: Minimum trade volume expressed in a base currency
             (cash).
 
-    Returns a new balance after trade.
+    Returns:
+        A new balance after trade.
     '''
 
     result = balance.copy()
@@ -147,7 +154,8 @@ def sell(candles: dict, balance: dict, currency: str, amount: float,
         min_order_size: Minimum trade volume expressed in a base currency
             (cash).
 
-    Returns a new balance after trade.
+    Returns:
+        A new balance after trade.
     '''
 
     result = balance.copy()
@@ -173,9 +181,10 @@ def make_portfolio(candles: dict, balance: dict, fee: float,
         fee: What part of the trade volume will be paid as fee.
         target_portfolio: A desired portfolio.
 
-    Returns a dictionary with values of how much of each currency to buy
-    (positive number) or sell (negative) in order to achieve a desired
-    portfolio.
+    Returns:
+        A dictionary with values of how much of each currency to buy
+            (positive number) or sell (negative) in order to achieve a
+            desired portfolio.
     '''
 
     prices = np.array([1.0]
