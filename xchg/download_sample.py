@@ -1,5 +1,8 @@
 '''This script downloads candles of selected cryptocurrencies from
 poloniex.com and saves them into csv files.
+
+After package installation just run "download_candles" script in your
+CLI without any parameters in order to download sample data.
 '''
 
 import os
@@ -18,7 +21,8 @@ def _request(currency: str, period: int, start: int, end: int) -> list:
         start: Start of the range (UNIX timestamp).
         end: End of the range (UNIX timestamp).
 
-    Returns list of dictionaries, each of each represents one candle.
+    Returns:
+        A list of dictionaries, each of each represents one candle.
     '''
     polo = Poloniex()
     pair = f"BTC_{currency}"

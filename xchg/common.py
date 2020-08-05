@@ -1,4 +1,5 @@
-'''Common functions used by several files.'''
+'''Common functions used by several sub-modules. It's for
+internal use only.'''
 
 import pandas as pd
 
@@ -19,6 +20,7 @@ def _read_csv(filepath: str) -> pd.core.frame.DataFrame:
     Args:
       filepath: Path to a csv file with data is stored.
 
-    Returns Pandas DataFrame with candles.
+    Returns:
+        A Pandas DataFrame with candles.
     '''
     return pd.read_csv(filepath)
