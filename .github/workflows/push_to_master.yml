@@ -1,0 +1,46 @@
+name: Push to master
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.6, 3.7, 3.8]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install .
+        pip install pytest pytest-flake8
+    - name: Test with pytest
+      run: |
+        pytest --flake8
+
+  doc:
+    name: Publish Package
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+    - name: AAAAAAAAAA
+      run: |
+        echo "WE HAVE PUBLISHED DOCS."
+
+  publish:
+    name: Publish Package
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+    - name: BBBBBBBBBBB
+      run: |
+        echo "WE HAVE PUBLISHED A PACKAGE."

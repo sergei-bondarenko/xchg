@@ -1,15 +1,18 @@
-name: Tests
+name: Push to master
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - !master
+      - !gh-pages
 
 jobs:
-  build:
-
+  test:
+    name: Run Tests
     runs-on: ubuntu-latest
     strategy:
       matrix:
         python-version: [3.6, 3.7, 3.8]
-
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
