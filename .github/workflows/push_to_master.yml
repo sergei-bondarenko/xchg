@@ -48,6 +48,7 @@ jobs:
     - name: Generate docs
       run: |
         pdoc3 --html xchg -o docs
+        mv docs/xchg/* docs
     - name: Commit files
       run: |
         git config --local user.email "action@github.com"
