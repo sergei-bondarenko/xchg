@@ -12,7 +12,7 @@ setup(
      author='Sergei Bondarenko',
      author_email='sergei@bondarenko.xyz',
      url='https://github.com/sergei-bondarenko/xchg',
-     license='LICENSE',
+     license='Unlicense',
      packages=['xchg'],
      install_requires=[
          'pandas',
