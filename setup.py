@@ -12,13 +12,12 @@ setup(
      author='Sergei Bondarenko',
      author_email='sergei@bondarenko.xyz',
      url='https://github.com/sergei-bondarenko/xchg',
+     license='LICENSE',
      packages=['xchg'],
      install_requires=[
          'pandas',
          'poloniex',
-         'numpy',
-         'pytest',
-         'pytest-flake8'
+         'numpy'
      ],
      entry_points={
          'console_scripts': ['download_sample=xchg.download_sample:_main'],
