@@ -1,5 +1,5 @@
 # Exchange Simulator
-[![Build Status](https://github.com/sergei-bondarenko/xchg/workflows/push_to_master/badge.svg?branch=master&event=push)](https://github.com/sergei-bondarenko/xchg/actions?query=workflow%3Apush_to_master)
+[![Build Status](https://github.com/sergei-bondarenko/xchg/workflows/build/badge.svg?branch=master&event=push)](https://github.com/sergei-bondarenko/xchg/actions?query=workflow%3Abuild)
 
 Simulator of a currency exchange. It supports fees and minimum order amounts.
 
