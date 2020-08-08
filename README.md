@@ -24,7 +24,9 @@ Then we need a market data. For tutorial purposes you can download it with this 
 download_sample
 ```
 
-It will download 50 candles for ETC, ETH, LTC and XMR cryptocurrencies from [poloniex.com](https://poloniex.com/) exchange and put it in `sample_data/` directory in the current path. Later you can view these .csv files and use your own data in the same format. You can have a different number of currecies, and different set of columns. The only mandatory column is "close" price, as it will used for trading. Just ensure that you have the same time range for different currencies and have no gaps in data.
+It will download 50 candles for ETC, ETH, LTC and XMR cryptocurrencies from [poloniex.com](https://poloniex.com/) exchange and put it in `sample_data/` directory in the current path. Or you can download `sample_data/` directory from this repository.
+
+Later you can view these .csv files and use your own data in the same format. You can have a different number of currecies, and different set of columns. The only mandatory column is "close" price, as it will used for trading. Just ensure that you have the same time range for different currencies and have no gaps in data.
 
 Prices in .csv files are expressed in a base currency, which will be called __cash__ (if you are curious, in the sample data cash currency is BTC).
 
