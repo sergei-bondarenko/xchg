@@ -16,7 +16,7 @@ Simulator of a currency exchange. Key features:
 
 The package is available on [pypi.org](https://pypi.org/project/xchg/), so you can install it via pip:
 ```bash
-pip3 install xchg
+pip install xchg
 ```
 
 Then we need a market data. For tutorial purposes you can download it with this command which will be available after package installation:

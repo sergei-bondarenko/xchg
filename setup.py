@@ -5,7 +5,7 @@ with open('README.md', 'r') as f:
 
 setup(
     name='xchg',
-    version='1.0.2',
+    version='1.0.3',
     description='Simulator of a currency exchange.',
     long_description=long_description,
     long_description_content_type='text/markdown',
