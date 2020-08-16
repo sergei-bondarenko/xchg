@@ -174,6 +174,40 @@ def test_dataframe_market2() -> pd.core.frame.DataFrame:
 
 
 @fixture
+def test_dict_candles() -> dict:
+    '''Test candles as dictionary.'''
+    return {
+        'cur0': {
+            'date': 1575158400,
+            'high': 0.02009497,
+            'low': 0.020021,
+            'open': 0.02007299,
+            'close': 0.02008
+        },
+        'cur1': {
+            'date': 1575158400,
+            'high': 0.12009497,
+            'low': 0.120021,
+            'open': 0.12007299,
+            'close': 0.12008
+        },
+        'cur2': {
+            'date': 1575158400,
+            'high': 0.22009497,
+            'low': 0.220021,
+            'open': 0.22007299,
+            'close': 0.22008
+        }
+    }
+
+
+@fixture
+def test_ndarray_prices() -> np.ndarray:
+    '''Prices in a Numpy ndarray form.'''
+    return np.array([1.0, 0.02008, 0.12008, 0.22008])
+
+
+@fixture
 def test_balance() -> dict:
     '''Test balance dictionary.'''
     return {'cash': 0.5, 'cur0': 0.1, 'cur1': 0.25, 'cur2': 0.25}

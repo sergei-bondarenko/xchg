@@ -35,7 +35,7 @@ def _dict_to_array(dic: dict) -> np.ndarray:
     Returns:
         A Numpy ndarray.
     '''
-    return np.array(list(dic.values()))
+    return np.array([dic[i] for i in sorted(dic)])
 
 
 def _array_to_dict(arr: np.ndarray, currencies: tuple) -> dict:
@@ -49,7 +49,21 @@ def _array_to_dict(arr: np.ndarray, currencies: tuple) -> dict:
     Returns:
         A dictionary.
     '''
-    return dict(zip(currencies, arr))
+    return dict(zip(sorted(currencies), arr))
+
+
+def _candles_to_array(candles: dict) -> np.ndarray:
+    '''Convert candle close prices to a dictionary.
+
+    Args:
+        candles: A candles dictionary.
+
+    Returns:
+        A Numpy ndarray.
+    '''
+    # Get close prices from all currencies and prepend 1.0 as a cash price.
+    prices = [candles[currency]['close'] for currency in sorted(candles)]
+    return np.array([1.0] + prices)
 
 
 def next_step(data_path: str) -> dict:
@@ -187,8 +201,7 @@ def make_portfolio(candles: dict, balance: dict, fee: float,
             desired portfolio.
     '''
 
-    prices = np.array([1.0]
-                      + [candles[currency]['close'] for currency in candles])
+    prices = _candles_to_array(candles)
     cur_balance = _dict_to_array(balance)
     cur_capital = capital(candles, balance)
     cur_portfolio = cur_balance * prices / np.sum(cur_balance * prices)

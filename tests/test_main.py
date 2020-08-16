@@ -6,6 +6,7 @@ from pytest import approx
 from xchg.main import _read_market
 from xchg.main import _dict_to_array
 from xchg.main import _array_to_dict
+from xchg.main import _candles_to_array
 from xchg.main import next_step
 from xchg.main import capital
 from xchg.main import portfolio
@@ -53,6 +54,19 @@ def test_array_to_dict(test_balance: dict, test_balance_ndarray: np.ndarray):
     currencies = test_balance.keys()
     dic = _array_to_dict(test_balance_ndarray, currencies)
     assert dic == test_balance
+
+
+def test_candles_to_array(test_dict_candles: dict,
+                          test_ndarray_prices: np.ndarray):
+    '''Test conversion of currencies prices from a candles dictionary to a
+    Numpy ndarray.
+
+    Args:
+        test_dict_candles: A candles dictionary.
+        test_ndarray_prices: Prices in a Numpy ndarray form.
+    '''
+    np.testing.assert_allclose(_candles_to_array(test_dict_candles),
+                               test_ndarray_prices)
 
 
 def test_next_step(test_csv_market: tuple, tmp_path: str,
