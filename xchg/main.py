@@ -61,9 +61,14 @@ def _candles_to_array(candles: dict) -> np.ndarray:
     Returns:
         A Numpy ndarray.
     '''
-    # Get close prices from all currencies and prepend 1.0 as a cash price.
-    prices = [candles[currency]['close'] for currency in sorted(candles)]
-    return np.array([1.0] + prices)
+    # Get close prices from all currencies and set 1.0 as a cash price.
+    prices = []
+    for currency in sorted(list(candles) + ['cash']):
+        if currency == 'cash':
+            prices.append(1.0)
+        else:
+            prices.append(candles[currency]['close'])
+    return np.array(prices)
 
 
 def next_step(data_path: str) -> dict:
