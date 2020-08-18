@@ -5,7 +5,7 @@ from .main import buy
 from .main import sell
 from .main import make_portfolio
 
-__version__ = '1.0.6'
+__version__ = '1.0.7'
 __all__ = [
     'next_step',
     'capital',

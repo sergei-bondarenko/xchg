@@ -35,7 +35,8 @@ def _dict_to_array(dic: dict) -> np.ndarray:
     Returns:
         A Numpy ndarray.
     '''
-    return np.array([dic[i] for i in sorted(dic)])
+    sorted_keys = ['cash'] + sorted([i for i in dic if i != 'cash'])
+    return np.array([dic[i] for i in sorted_keys])
 
 
 def _array_to_dict(arr: np.ndarray, currencies: tuple) -> dict:
@@ -49,7 +50,8 @@ def _array_to_dict(arr: np.ndarray, currencies: tuple) -> dict:
     Returns:
         A dictionary.
     '''
-    return dict(zip(sorted(currencies), arr))
+    sorted_cur = ['cash'] + sorted([i for i in currencies if i != 'cash'])
+    return dict(zip(sorted_cur, arr))
 
 
 def _candles_to_array(candles: dict) -> np.ndarray:
@@ -61,14 +63,9 @@ def _candles_to_array(candles: dict) -> np.ndarray:
     Returns:
         A Numpy ndarray.
     '''
-    # Get close prices from all currencies and set 1.0 as a cash price.
-    prices = []
-    for currency in sorted(list(candles) + ['cash']):
-        if currency == 'cash':
-            prices.append(1.0)
-        else:
-            prices.append(candles[currency]['close'])
-    return np.array(prices)
+    # Get close prices from all currencies and prepend 1.0 as a cash price.
+    return np.array([1.0] + [candles[currency]['close']
+                    for currency in sorted(candles)])
 
 
 def next_step(data_path: str) -> dict:
