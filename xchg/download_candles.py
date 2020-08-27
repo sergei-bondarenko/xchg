@@ -8,7 +8,6 @@ CLI without any parameters in order to download sample data.
 import os
 import pandas as pd
 from poloniex import Poloniex
-from .common import _save_csv
 
 
 def _request(currency: str, period: int, start: int, end: int) -> list:
@@ -68,6 +67,6 @@ def _main(currencies: list = ['ETH', 'ETC', 'XMR', 'LTC'],
     for currency in currencies:
         candles = _request(currency, period, start, end)
         df = _candles_to_df(candles)
-        _save_csv(df, f"{data_folder}/{currency}.csv")
+        df.to_csv(f"{data_folder}/{currency}.csv", index=False)
 
     print(f"Market data saved to {data_folder}.")

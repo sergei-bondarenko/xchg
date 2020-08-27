@@ -21,7 +21,7 @@ pip install xchg
 
 Then we need a market data. For tutorial purposes you can download it with this command which will be available after package installation:
 ```bash
-download_sample
+download_candles
 ```
 
 It will download 50 candles for ETC, ETH, LTC and XMR cryptocurrencies from [poloniex.com](https://poloniex.com/) exchange and put it in `sample_data/` directory in the current path. Or you can download `sample_data/` directory from this repository.
