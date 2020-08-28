@@ -29,7 +29,8 @@ def _read_candles(data_path: str) -> list:
     for i in range(candles_number):
         candles.append({})
         for currency in currencies:
-            candles[i][currency] = dict(csv_files[currency][i])
+            candles[i][currency] = {k: float(v) for k, v
+                                    in dict(csv_files[currency][i]).items()}
     return {'currencies': sorted(currencies), 'candles': candles}
 
 

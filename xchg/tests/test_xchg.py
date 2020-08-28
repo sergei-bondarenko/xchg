@@ -36,3 +36,14 @@ def test_next_step(candles: list, balance: dict):
     # Test for an exception at the end of a file.
     with raises(StopIteration):
         x.next_step()
+
+
+def test_capital(candles: list, balance: dict):
+    '''Test a capital property.
+
+    Args:
+        candles: A candles list.
+        balance: An initial balance.
+    '''
+    x = Xchg(balance, 0, 0, candles=candles)
+    assert x.capital == 1.062048

@@ -29,13 +29,32 @@ class Xchg:
             self.__candles = candles
 
     @property
-    def current_candle(self):
+    def current_candle(self) -> dict:
         '''Get a current candle.
 
         Returns:
             A current candle.
         '''
         return self.__candles[0]
+
+    @property
+    def capital(self) -> float:
+        '''Returns a current capital - sum of all currencies if they are
+        converted to a cash without fees.
+
+        Returns:
+            A capital.
+        '''
+        capital = 0
+        for currency, amount in self.__balance.items():
+            if currency == 'cash':
+                capital += amount
+            else:
+                print('==========')
+                print(currency, amount, self.current_candle[currency]['close'])
+                print(capital)
+                capital += amount * self.current_candle[currency]['close']
+        return capital
 
     def next_step(self) -> 'Xchg':
         '''Go to the next step in timeline.
