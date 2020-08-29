@@ -142,3 +142,27 @@ class Xchg:
 
         return Xchg(balance, self.fee, self.min_order_size,
                     candles=self.__candles)
+
+    def sell(self, currency: str, amount: float) -> dict:
+        '''Sell currency.
+
+        Args:
+            currency: A name of the currency.
+            amount: How much units of this currency to sell.
+
+        Returns:
+            A new Xchg instance after a sell operation.
+        '''
+
+        balance = self.balance.copy()
+        price = self.current_candle[currency]['close']
+        without_fee = price * amount
+        with_fee = without_fee * (1 - self.fee)
+
+        if (amount <= self.balance[currency]
+                and without_fee >= self.min_order_size):
+            balance['cash'] += with_fee
+            balance[currency] -= amount
+
+        return Xchg(balance, self.fee, self.min_order_size,
+                    candles=self.__candles)

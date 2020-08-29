@@ -75,3 +75,23 @@ def test_buy(x: Xchg, balance_after_buy: dict):
 
     # Buy less than a minimum order size.
     assert x.buy('cur0', 0.1).balance == x.balance
+
+    # Buy more than the existing cash amount.
+    assert x.buy('cur0', 100).balance == x.balance
+
+
+def test_sell(x: Xchg, balance_after_sell: dict):
+    '''Test a sell operation.
+
+    Args:
+        x: A Xchg instance.
+        balance_after_sell: A balance after a sell operation.
+    '''
+    # A normal path.
+    assert x.sell('cur1', 0.3).balance == balance_after_sell
+
+    # Buy less than a minimum order size.
+    assert x.sell('cur1', 0.05).balance == x.balance
+
+    # Sell more than we have.
+    assert x.sell('cur1', 1).balance == x.balance
