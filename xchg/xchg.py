@@ -38,6 +38,15 @@ class Xchg:
         return self.__candles[0]
 
     @property
+    def balance(self) -> float:
+        '''Get a current balance.
+
+        Returns:
+            A current balance.
+        '''
+        return self.__balance
+
+    @property
     def capital(self) -> float:
         '''Returns a current capital - sum of all currencies if they are
         converted to a cash without fees.
@@ -46,7 +55,7 @@ class Xchg:
             A capital.
         '''
         capital = 0
-        for currency, amount in self.__balance.items():
+        for currency, amount in self.balance.items():
             if currency == 'cash':
                 capital += amount
             else:
@@ -55,6 +64,25 @@ class Xchg:
                 print(capital)
                 capital += amount * self.current_candle[currency]['close']
         return capital
+
+    @property
+    def portfolio(self) -> dict:
+        '''Returns a current portfolio - proportion of capital by each
+        currency.
+
+        Returns:
+            A portfolio.
+        '''
+        cap = self.capital
+        portf = {}
+        for currency, amount in self.balance.items():
+            if currency == 'cash':
+                portf[currency] = self.balance[currency] / cap
+            else:
+                portf[currency] = (self.balance[currency]
+                                   * self.current_candle[currency]['close']
+                                   / cap)
+        return portf
 
     def next_step(self) -> 'Xchg':
         '''Go to the next step in timeline.

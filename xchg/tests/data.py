@@ -2,6 +2,7 @@
 
 import pandas as pd
 from pytest import fixture
+from ..xchg import Xchg
 
 
 @fixture
@@ -128,3 +129,23 @@ def dataframe() -> pd.core.frame.DataFrame:
 def balance() -> dict:
     '''A sample balance.'''
     return {'cash': 1.0, 'cur0': 0.1, 'cur1': 0.5, 'cur2': 0.0}
+
+
+@fixture
+def portfolio() -> dict:
+    '''A test portfolio based on the sample balance.'''
+    return {'cash': 0.9415770285335502,
+            'cur0': 0.001890686673295369,
+            'cur1': 0.05653228479315436,
+            'cur2': 0.0}
+
+
+@fixture
+def x(candles: list, balance: dict) -> Xchg:
+    '''A test Xchg object.
+
+    Args:
+        candles: A candles list.
+        balance: An initial balance.
+    '''
+    return Xchg(balance, 0, 0, candles=candles)

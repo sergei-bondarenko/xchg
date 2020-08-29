@@ -21,16 +21,17 @@ def test_init(files: dict, tmp_path: str, candles: list, balance: dict):
 
     x = Xchg(balance, 0, 0, tmp_path)
     assert x.current_candle == candles[0]
+    assert x.balance == balance
 
 
-def test_next_step(candles: list, balance: dict):
+def test_next_step(x: Xchg, candles: list):
     '''Test a next_step method.
 
     Args:
+        x: A Xchg instance.
         candles: A candles list.
-        balance: An initial balance.
     '''
-    x = Xchg(balance, 0, 0, candles=candles).next_step()
+    x = x.next_step()
     assert x.current_candle == candles[1]
 
     # Test for an exception at the end of a file.
@@ -38,12 +39,20 @@ def test_next_step(candles: list, balance: dict):
         x.next_step()
 
 
-def test_capital(candles: list, balance: dict):
+def test_capital(x: Xchg):
     '''Test a capital property.
 
     Args:
-        candles: A candles list.
-        balance: An initial balance.
+        x: A Xchg instance.
     '''
-    x = Xchg(balance, 0, 0, candles=candles)
     assert x.capital == 1.062048
+
+
+def test_portfolio(x: Xchg, portfolio: dict):
+    '''Test a portfolio property.
+
+    Args:
+        x: A Xchg instance.
+        portfolio: A sample portfolio.
+    '''
+    assert x.portfolio == portfolio
