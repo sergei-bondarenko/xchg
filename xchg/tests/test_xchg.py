@@ -19,9 +19,14 @@ def test_init(files: dict, tmp_path: str, candles: list, balance: dict):
         with open(filepath, 'w') as f:
             f.write(content)
 
-    x = Xchg(balance, 0, 0, tmp_path)
+    fee = 0.1
+    min_order_size = 0.01
+    x = Xchg(balance, fee, min_order_size, tmp_path)
     assert x.current_candle == candles[0]
     assert x.balance == balance
+    assert x.fee == fee
+    assert x.min_order_size == min_order_size
+    assert x.currencies == [f.split('.')[0] for f in files.keys()]
 
 
 def test_next_step(x: Xchg, candles: list):
@@ -56,3 +61,17 @@ def test_portfolio(x: Xchg, portfolio: dict):
         portfolio: A sample portfolio.
     '''
     assert x.portfolio == portfolio
+
+
+def test_buy(x: Xchg, balance_after_buy: dict):
+    '''Test a buy operation.
+
+    Args:
+        x: A Xchg instance.
+        balance_after_buy: A balance after a buy operation.
+    '''
+    # A normal path.
+    assert x.buy('cur0', 10).balance == balance_after_buy
+
+    # Buy less than a minimum order size.
+    assert x.buy('cur0', 0.1).balance == x.balance

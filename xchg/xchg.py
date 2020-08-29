@@ -47,6 +47,33 @@ class Xchg:
         return self.__balance
 
     @property
+    def fee(self) -> float:
+        '''Get a fee which is used in the exchange.
+
+        Returns:
+            A fee.
+        '''
+        return self.__fee
+
+    @property
+    def currencies(self) -> float:
+        '''Get currencies which are used in the exchange.
+
+        Returns:
+            List of currencies.
+        '''
+        return self.__currencies
+
+    @property
+    def min_order_size(self) -> float:
+        '''Get a minimum order size which is set in the exchange.
+
+        Returns:
+            A minimum order value expressed in a cash currency.
+        '''
+        return self.__min_order_size
+
+    @property
     def capital(self) -> float:
         '''Returns a current capital - sum of all currencies if they are
         converted to a cash without fees.
@@ -59,9 +86,6 @@ class Xchg:
             if currency == 'cash':
                 capital += amount
             else:
-                print('==========')
-                print(currency, amount, self.current_candle[currency]['close'])
-                print(capital)
                 capital += amount * self.current_candle[currency]['close']
         return capital
 
@@ -92,5 +116,29 @@ class Xchg:
         '''
         if len(self.__candles) == 1:
             raise StopIteration
-        return Xchg(self.__balance, self.__fee, self.__min_order_size,
+        return Xchg(self.balance, self.fee, self.min_order_size,
                     candles=self.__candles[1:])
+
+    def buy(self, currency: str, amount: float) -> dict:
+        '''Buy currency.
+
+        Args:
+            currency: A name of the currency.
+            amount: How much units of this currency to buy.
+
+        Returns:
+            A new Xchg instance after a buy operation.
+        '''
+
+        balance = self.balance.copy()
+        price = self.current_candle[currency]['close']
+        without_fee = price * amount
+        with_fee = without_fee * (1 + self.fee)
+
+        if (with_fee <= self.balance['cash']
+                and without_fee >= self.min_order_size):
+            balance['cash'] -= with_fee
+            balance[currency] += amount
+
+        return Xchg(balance, self.fee, self.min_order_size,
+                    candles=self.__candles)
