@@ -154,10 +154,71 @@ def x(candles: list, balance: dict) -> Xchg:
 @fixture
 def balance_after_buy() -> dict:
     '''A balance after a buy operation.'''
-    return {'cash': 0.77912, 'cur0': 10.1, 'cur1': 0.5, 'cur2': 0.0}
+    return {'cash': 0.7768888888888889, 'cur0': 10.1, 'cur1': 0.5, 'cur2': 0.0}
 
 
 @fixture
 def balance_after_sell() -> dict:
     '''A balance after a sell operation.'''
     return {'cash': 1.0324216, 'cur0': 0.1, 'cur1': 0.2, 'cur2': 0.0}
+
+
+@fixture
+def balance_after_full_buy() -> dict:
+    '''A balance after buying currency for all cash.'''
+    return {'cash': 0.0, 'cur0': 44.920717131474105, 'cur1': 0.5, 'cur2': 0.0}
+
+
+@fixture
+def balance_after_full_sell() -> dict:
+    '''A balance after a complete sell of one currency.'''
+    return {'cash': 1.054036, 'cur0': 0.1, 'cur1': 0.0, 'cur2': 0.0}
+
+
+@fixture
+def target_portfolios() -> dict:
+    '''Several test cases for a desired portfolio.'''
+    return [{'cash': 0.0, 'cur0': 0.2, 'cur1': 0.0, 'cur2': 0.8},
+            {'cash': 0.0, 'cur0': 0.7, 'cur1': 0.3, 'cur2': 0.0},
+            {'cash': 1.0, 'cur0': 0.0, 'cur1': 0.0, 'cur2': 0.0},
+            {'cash': 0.2, 'cur0': 0.2, 'cur1': 0.2, 'cur2': 0.4},
+            {'cash': 0.1, 'cur0': 0.9, 'cur1': 0.0, 'cur2': 0.0}]
+
+
+@fixture
+def xchg_repr() -> str:
+    '''A representation __repr__ of Xchg class.'''
+    return ("balance: {'cash': 1.0, 'cur0': 0.1, 'cur1': 0.5, 'cur2': 0.0}\n"
+            "fee: 0.1\n"
+            "min_order_size: 0.01\n"
+            "currencies: ['cur0', 'cur1', 'cur2']\n"
+            "current_candle: {"
+            "'cur0': {"
+            "'date': 1575158400.0, "
+            "'high': 0.02009497, "
+            "'low': 0.020021, "
+            "'open': 0.02007299, "
+            "'close': 0.02008"
+            "}, "
+            "'cur1': {"
+            "'date': 1575158400.0, "
+            "'high': 0.12009497, "
+            "'low': 0.120021, "
+            "'open': 0.12007299, "
+            "'close': 0.12008"
+            "}, "
+            "'cur2': {"
+            "'date': 1575158400.0, "
+            "'high': 0.22009497, "
+            "'low': 0.220021, "
+            "'open': 0.22007299, "
+            "'close': 0.22008"
+            "}"
+            "}\n"
+            "capital: 1.062048\n"
+            "portfolio: {"
+            "'cash': 0.9415770285335502, "
+            "'cur0': 0.001890686673295369, "
+            "'cur1': 0.05653228479315436, "
+            "'cur2': 0.0"
+            "}")
