@@ -41,7 +41,7 @@ setup(
     ],
     entry_points={
         'console_scripts':
-            [f"download_sample={PACKAGE_NAME}.download_sample:_main"],
+            [f"download_candles={PACKAGE_NAME}.download_candles:_main"],
     },
     classifiers=[
         'Development Status :: 5 - Production/Stable',

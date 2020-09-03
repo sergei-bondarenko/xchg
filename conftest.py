@@ -1,3 +1,3 @@
 pytest_plugins = [
-   'tests.data',
+   'xchg.tests.data',
 ]
