@@ -4,7 +4,7 @@
 [![Python Version](https://img.shields.io/pypi/pyversions/xchg.svg)](https://pypi.org/project/xchg/)
 
 Simulator of a currency exchange. Key features:
-- Very minimalistic (300 lines in code);
+- Very minimalistic (300 lines in code), written in a functional style;
 - You can download a sample data from poloniex.com or provide your data in .csv files;
 - You can set an initial balance, use basic functions like buy, sell, go to the next time step;
 - More advanced features like a total capital calculation, and make portfolio, more about that at the link below;
