@@ -39,8 +39,8 @@ from xchg import Xchg
 # start.
 balance = {'cash': 100, 'ETC': 0, 'ETH': 0, 'LTC': 0}
 
-# Set a trading fee which will be paid for each buy or sell trade (e.g. 1%).
-# You can use 0 if you don't want a fee.
+# Set a trading fee which will be paid for each buy or sell trade (in this
+# example it's 1%). You can set 0 if you don't want any fee to be paid.
 fee = 0.01
 
 # Set a minimum order size expressed in a cash currency. You can not place
