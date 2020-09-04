@@ -218,7 +218,6 @@ class Xchg:
 
         # A capital after trade.
         tar_capital = x.capital * cc1
-        print(f"cc1: {cc1}")
 
         # Sell first.
         for cur in x.currencies:
