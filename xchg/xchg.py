@@ -29,14 +29,19 @@ class Xchg:
             self.__candles = candles
 
     def __repr__(self):
-        '''Return class attributes as a string.'''
+        '''Returns class attributes as a string.'''
         return (f"balance: {self.balance}\n"
                 f"fee: {self.fee}\n"
                 f"min_order_size: {self.min_order_size}\n"
                 f"currencies: {self.currencies}\n"
                 f"current_candle: {self.current_candle}\n"
                 f"capital: {self.capital}\n"
-                f"portfolio: {self.portfolio}")
+                f"portfolio: {self.portfolio}\n"
+                f"lenght: {len(self)}")
+
+    def __len__(self):
+        '''Returns the number of candles.'''
+        return len(self.__candles)
 
     @property
     def current_candle(self) -> dict:
