@@ -4,22 +4,23 @@ from .common import _read_candles
 
 
 class Xchg:
-    def __init__(self, balance, fee, min_order_size, data_path=None,
+    def __init__(self, fee, min_order_size, data_path=None, balance=None,
                  candles=None):
         '''Create an instance of a currency exchange.
 
         Args:
-          balance: An initial balance.
           fee: What part of a trade volume will be paid as fee.
           min_order_size: Minimum trade volume expressed in a base currency
               (cash).
           data_path: Where csv files with data are stored.
+          balance: An initial balance. If it's None, then cash currency will be
+              set to 1.0 and all others to zero.
           candles: You can directly initialize the class with candles, not to
               read them from a disk.
         '''
-        self.__balance = balance
         self.__fee = fee
         self.__min_order_size = min_order_size
+
         if data_path is not None:
             res = _read_candles(data_path)
             self.__currencies = res['currencies']
@@ -27,6 +28,14 @@ class Xchg:
         else:
             self.__currencies = list(sorted(candles[0].keys()))
             self.__candles = candles
+
+        if balance is not None:
+            self.__balance = balance
+        else:
+            self.__balance = {}
+            self.__balance['cash'] = 1.0
+            for currency in self.__currencies:
+                self.__balance[currency] = 0.0
 
     def __repr__(self):
         '''Returns class attributes as a string.'''
@@ -131,7 +140,7 @@ class Xchg:
         '''
         if len(self.__candles) == 1:
             raise StopIteration
-        return Xchg(self.balance, self.fee, self.min_order_size,
+        return Xchg(self.fee, self.min_order_size, balance=self.balance,
                     candles=self.__candles[1:])
 
     def buy(self, currency: str, amount: float) -> dict:
@@ -160,7 +169,7 @@ class Xchg:
                 # have.
                 balance['cash'] = 0.0
 
-        return Xchg(balance, self.fee, self.min_order_size,
+        return Xchg(self.fee, self.min_order_size, balance=balance,
                     candles=self.__candles)
 
     def sell(self, currency: str, amount: float) -> dict:
@@ -189,7 +198,7 @@ class Xchg:
                 # have.
                 balance[currency] = 0.0
 
-        return Xchg(balance, self.fee, self.min_order_size,
+        return Xchg(self.fee, self.min_order_size, balance=balance,
                     candles=self.__candles)
 
     def make_portfolio(self, target_portfolio: dict) -> dict:

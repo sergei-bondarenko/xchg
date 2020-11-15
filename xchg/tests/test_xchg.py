@@ -6,7 +6,7 @@ from ..xchg import Xchg
 
 
 def test_init(files: dict, tmp_path: str, candles: list, balance: dict,
-              xchg_repr: str):
+              xchg_repr: str, default_balance: dict):
     '''Test a construction of a Xchg class.
 
     Args:
@@ -15,6 +15,7 @@ def test_init(files: dict, tmp_path: str, candles: list, balance: dict,
         candles: An expected result.
         balance: An initial balance.
         xchg_repr: A representation __repr__ of Xchg class.
+        default_balance: A default balance when it is not set.
     '''
     # Prepare files.
     for filename, content in files.items():
@@ -24,13 +25,15 @@ def test_init(files: dict, tmp_path: str, candles: list, balance: dict,
 
     fee = 0.1
     min_order_size = 0.01
-    x = Xchg(balance, fee, min_order_size, tmp_path)
+    x = Xchg(fee, min_order_size, tmp_path, balance)
     assert x.current_candle == candles[0]
     assert x.balance == balance
     assert x.fee == fee
     assert x.min_order_size == min_order_size
     assert x.currencies == [f.split('.')[0] for f in files.keys()]
     assert repr(x) == xchg_repr
+    x = Xchg(fee, min_order_size, tmp_path)
+    assert x.balance == default_balance
 
 
 def test_next_step(x: Xchg, candles: list):

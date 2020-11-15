@@ -132,6 +132,12 @@ def balance() -> dict:
 
 
 @fixture
+def default_balance() -> dict:
+    '''A default balance when it is not set.'''
+    return {'cash': 1.0, 'cur0': 0.0, 'cur1': 0.0, 'cur2': 0.0}
+
+
+@fixture
 def portfolio() -> dict:
     '''A test portfolio based on the sample balance.'''
     return {'cash': 0.9415770285335502,
@@ -148,7 +154,7 @@ def x(candles: list, balance: dict) -> Xchg:
         candles: A candles list.
         balance: An initial balance.
     '''
-    return Xchg(balance, 0.1, 0.01, candles=candles)
+    return Xchg(0.1, 0.01, balance=balance, candles=candles)
 
 
 @fixture
