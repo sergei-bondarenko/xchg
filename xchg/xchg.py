@@ -29,6 +29,9 @@ class Xchg:
             self.__currencies = list(sorted(candles[0].keys()))
             self.__candles = candles
 
+        self.__data_start = self.__candles[0][self.__currencies[0]]['date']
+        self.__data_end = self.__candles[-1][self.__currencies[0]]['date']
+
         if balance is not None:
             self.__balance = balance
         else:
@@ -46,11 +49,31 @@ class Xchg:
                 f"current_candle: {self.current_candle}\n"
                 f"capital: {self.capital}\n"
                 f"portfolio: {self.portfolio}\n"
-                f"lenght: {len(self)}")
+                f"lenght: {len(self)}\n"
+                f"data_start: {self.data_start}\n"
+                f"data_end: {self.data_end}")
 
     def __len__(self):
         '''Returns the number of candles.'''
         return len(self.__candles)
+
+    @property
+    def data_start(self) -> dict:
+        '''Get a starting time of the data.
+
+        Returns:
+            A starting time of the data.
+        '''
+        return self.__data_start
+
+    @property
+    def data_end(self) -> dict:
+        '''Get an ending time of the data.
+
+        Returns:
+            An ending time of the data.
+        '''
+        return self.__data_end
 
     @property
     def current_candle(self) -> dict:

@@ -228,4 +228,6 @@ def xchg_repr() -> str:
             "'cur1': 0.05653228479315436, "
             "'cur2': 0.0"
             "}\n"
-            "lenght: 2")
+            "lenght: 2\n"
+            "data_start: 1575158400.0\n"
+            "data_end: 1575160200.0")
