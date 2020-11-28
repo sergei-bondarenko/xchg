@@ -71,3 +71,10 @@ print(ex.balance)
 
 # We made 1 BTC, yay!
 ```
+
+## For developers
+Use the following command to running tests locally:
+```python3
+pytest --flake8 --cov=xchg --cov-report term-missing -vvv
+```
+And do not forget to increase a version in `xchg/__init__.py` before commiting.
