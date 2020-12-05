@@ -9,7 +9,8 @@ class Xchg:
         '''Create an instance of a currency exchange.
 
         Args:
-          fee: What part of a trade volume will be paid as fee.
+          fee: What part of a trade volume will be paid as fee. For example, 1%
+              fee should be set as 0.01.
           min_order_size: Minimum trade volume expressed in a base currency
               (cash).
           data_path: Where csv files with data are stored.
