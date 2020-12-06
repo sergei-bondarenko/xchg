@@ -15,7 +15,9 @@ class Xchg:
               (cash).
           data_path: Where csv files with data are stored.
           balance: An initial balance. If it's None, then cash currency will be
-              set to 1.0 and all others to zero.
+              set to 1.0 and all others to zero. If it's a float, then it will
+              set as the base currency (cash) value. Also you set it as a full
+              dictionary with all currencies as keys and values.
           candles: You can directly initialize the class with candles, not to
               read them from a disk.
         '''
@@ -33,11 +35,16 @@ class Xchg:
         self.__data_start = self.__candles[0][self.__currencies[0]]['date']
         self.__data_end = self.__candles[-1][self.__currencies[0]]['date']
 
-        if balance is not None:
+        if type(balance) == dict:
             self.__balance = balance
-        else:
+        elif balance is None:
             self.__balance = {}
             self.__balance['cash'] = 1.0
+            for currency in self.__currencies:
+                self.__balance[currency] = 0.0
+        else:
+            self.__balance = {}
+            self.__balance['cash'] = float(balance)
             for currency in self.__currencies:
                 self.__balance[currency] = 0.0
 

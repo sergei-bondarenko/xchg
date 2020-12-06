@@ -34,6 +34,8 @@ def test_init(files: dict, tmp_path: str, candles: list, balance: dict,
     assert repr(x) == xchg_repr
     x = Xchg(fee, min_order_size, tmp_path)
     assert x.balance == default_balance
+    x = Xchg(fee, min_order_size, tmp_path, 1.0)
+    assert x.balance == default_balance
 
 
 def test_next_step(x: Xchg, candles: list):
