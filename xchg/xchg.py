@@ -66,7 +66,7 @@ class Xchg:
         return len(self.__candles)
 
     @property
-    def data_start(self) -> dict:
+    def data_start(self) -> int:
         '''Get a starting time of the data.
 
         Returns:
@@ -75,7 +75,7 @@ class Xchg:
         return self.__data_start
 
     @property
-    def data_end(self) -> dict:
+    def data_end(self) -> int:
         '''Get an ending time of the data.
 
         Returns:
