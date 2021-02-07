@@ -49,7 +49,7 @@ fee = 0.01
 min_order_size = 0.001
 
 # Create an exchange.
-ex = Xchg(balance, fee, min_order_size, data_path='sample_data/')
+ex = Xchg(fee, min_order_size, data_path='sample_data/', balance=balance)
 
 # Let's buy some coins.
 ex = ex.buy('ETC', 7500)
@@ -73,8 +73,15 @@ print(ex.balance)
 ```
 
 ## For developers
-Use the following command to running tests locally:
+
+Install testing modules:
+```bash
+pip install pytest pytest-flake8 pytest-cov
+```
+
+Use the following command to run tests locally:
 ```python3
 pytest --flake8 --cov=xchg --cov-report term-missing -vvv
 ```
+
 And do not forget to increase a version in `xchg/__init__.py` before commiting.

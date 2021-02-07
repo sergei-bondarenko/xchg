@@ -25,7 +25,7 @@ def test_init(files: dict, tmp_path: str, candles: list, balance: dict,
 
     fee = 0.1
     min_order_size = 0.01
-    x = Xchg(fee, min_order_size, tmp_path, balance)
+    x = Xchg(fee, min_order_size, balance=balance, data_path=tmp_path)
     assert x.current_candle == candles[0]
     assert x.balance == balance
     assert x.fee == fee
