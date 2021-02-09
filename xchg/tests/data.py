@@ -138,6 +138,18 @@ def default_balance() -> dict:
 
 
 @fixture
+def incomplete_balance() -> dict:
+    '''An incomplete balance which should be filled with zeros.'''
+    return {'cash': 1.0, 'cur0': 0.0}
+
+
+@fixture
+def permuted_balance() -> dict:
+    '''A permuted balance which should be sorted.'''
+    return {'cash': 1.0, 'cur2': 0.0, 'cur1': 0.5, 'cur0': 0.1}
+
+
+@fixture
 def portfolio() -> dict:
     '''A test portfolio based on the sample balance.'''
     return {'cash': 0.9415770285335502,

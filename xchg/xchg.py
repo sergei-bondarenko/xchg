@@ -36,7 +36,9 @@ class Xchg:
         self.__data_end = self.__candles[-1][self.__currencies[0]]['date']
 
         if type(balance) == dict:
-            self.__balance = balance
+            self.__balance = {}
+            for currency in ['cash'] + self.__currencies:
+                self.__balance[currency] = balance.get(currency, 0.0)
         elif balance is None:
             self.__balance = {}
             self.__balance['cash'] = 1.0

@@ -6,7 +6,8 @@ from ..xchg import Xchg
 
 
 def test_init(files: dict, tmp_path: str, candles: list, balance: dict,
-              xchg_repr: str, default_balance: dict):
+              xchg_repr: str, default_balance: dict, incomplete_balance: dict,
+              permuted_balance: dict):
     '''Test a construction of a Xchg class.
 
     Args:
@@ -16,6 +17,9 @@ def test_init(files: dict, tmp_path: str, candles: list, balance: dict,
         balance: An initial balance.
         xchg_repr: A representation __repr__ of Xchg class.
         default_balance: A default balance when it is not set.
+        incomplete_balance: An incomplete balance which should be filled with
+    zeros.
+        permuted_balance: A permuted balance which should be sorted.
     '''
     # Prepare files.
     for filename, content in files.items():
@@ -36,6 +40,14 @@ def test_init(files: dict, tmp_path: str, candles: list, balance: dict,
     assert x.balance == default_balance
     x = Xchg(fee, min_order_size, tmp_path, 1.0)
     assert x.balance == default_balance
+
+    # Check that incompleted balance filled to the full.
+    x = Xchg(fee, min_order_size, tmp_path, balance=incomplete_balance)
+    assert x.balance == default_balance
+
+    # Check that currencies are sorted in the balance.
+    x = Xchg(fee, min_order_size, tmp_path, balance=permuted_balance)
+    assert str(x.balance) == str(balance)
 
 
 def test_next_step(x: Xchg, candles: list):
