@@ -37,7 +37,7 @@ from xchg import Xchg
 
 # Set an initial balance. Let's set that we have only cash currency at the
 # start.
-balance = {'cash': 100, 'ETC': 0, 'ETH': 0, 'LTC': 0}
+balance = {'cash': 100, 'ETC': 0, 'ETH': 0, 'LTC': 0, 'XMR': 0}
 
 # Set a trading fee which will be paid for each buy or sell trade (in this
 # example it's 1%). You can set 0 if you don't want any fee to be paid.
@@ -56,7 +56,7 @@ ex = ex.buy('ETC', 7500)
 ex = ex.buy('LTC', 15000)
 
 print(ex.balance)
-# Output: {'cash': 1.2146212121212017, 'ETC': 7500, 'ETH': 0, 'LTC': 15000}
+# Output: {'cash': 1.2146212121212017, 'ETC': 7500.0, 'ETH': 0.0, 'LTC': 15000.0, 'XMR': 0.0}
 
 # All done, now we want to wait for 30 time periods.
 for _ in range(30):
@@ -67,7 +67,7 @@ ex = ex.sell('ETC', 7500)
 ex = ex.sell('LTC', 15000)
 
 print(ex.balance)
-# Output: {'cash': 101.1345539621212, 'ETC': 0, 'ETH': 0, 'LTC': 0}
+# Output: {'cash': 101.1345539621212, 'ETC': 0.0, 'ETH': 0.0, 'LTC': 0.0, 'XMR': 0.0}
 
 # We made 1 BTC, yay!
 ```

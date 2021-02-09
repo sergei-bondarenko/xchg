@@ -38,7 +38,7 @@ class Xchg:
         if type(balance) == dict:
             self.__balance = {}
             for currency in ['cash'] + self.__currencies:
-                self.__balance[currency] = balance.get(currency, 0.0)
+                self.__balance[currency] = float(balance.get(currency, 0.0))
         elif balance is None:
             self.__balance = {}
             self.__balance['cash'] = 1.0
