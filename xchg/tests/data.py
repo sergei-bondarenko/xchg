@@ -172,7 +172,7 @@ def x(candles: list, balance: dict) -> Xchg:
 @fixture
 def balance_after_buy() -> dict:
     '''A balance after a buy operation.'''
-    return {'cash': 0.7768888888888889, 'cur0': 10.1, 'cur1': 0.5, 'cur2': 0.0}
+    return {'cash': 0.7992, 'cur0': 9.1, 'cur1': 0.5, 'cur2': 0.0}
 
 
 @fixture
@@ -184,7 +184,7 @@ def balance_after_sell() -> dict:
 @fixture
 def balance_after_full_buy() -> dict:
     '''A balance after buying currency for all cash.'''
-    return {'cash': 0.0, 'cur0': 44.920717131474105, 'cur1': 0.5, 'cur2': 0.0}
+    return {'cash': 0.0, 'cur0': 44.920717131474106, 'cur1': 0.5, 'cur2': 0.0}
 
 
 @fixture

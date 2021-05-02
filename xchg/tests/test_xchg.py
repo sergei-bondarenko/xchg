@@ -105,11 +105,11 @@ def test_buy(x: Xchg, balance_after_buy: dict, balance_after_full_buy: dict):
     assert x.buy('cur0', 0).balance == approx(x.balance, 1e-10)
 
     # Buy a currency for all cash.
-    assert x.buy('cur0', 44.820717131474105).balance == \
+    assert x.buy('cur0', 49.800796812749006).balance == \
            approx(balance_after_full_buy, 1e-10)
 
     # Buy a little more than we have cash, it must be forgived.
-    assert x.buy('cur0', 44.820717131474105 + 1e-10).balance == \
+    assert x.buy('cur0', 49.800796812749006 + 1e-10).balance == \
            approx(balance_after_full_buy, 1e-10)
 
 

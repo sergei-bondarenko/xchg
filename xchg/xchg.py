@@ -189,14 +189,14 @@ class Xchg:
 
         balance = self.balance.copy()
         price = self.current_candle[currency]['close']
-        without_fee = price * amount
-        with_fee = without_fee / (1 - self.fee)
+        currency_delta = amount * (1 - self.fee)
+        cash_delta = price * amount
 
         # If we want to buy a slightly more than we have, we will forgive.
-        if (with_fee <= (self.balance['cash'] + 1e-10)
-                and without_fee >= self.min_order_size):
-            balance['cash'] -= with_fee
-            balance[currency] += amount
+        if (cash_delta <= (self.balance['cash'] + 1e-10)
+                and cash_delta >= self.min_order_size):
+            balance['cash'] -= cash_delta
+            balance[currency] += currency_delta
             if balance['cash'] < 0.0:
                 # Set the balance to zero if we bought a slightly more than we
                 # have.
@@ -248,7 +248,7 @@ class Xchg:
 
         # Calculate a capital change after trading.
         cc0 = 1
-        cc1 = 1 - 2 * self.fee + self.fee ** 2
+        cc1 = 1 - 2 * x.fee + x.fee ** 2
         while abs(cc1 - cc0) > 1e-10:
             cc0 = cc1
 
@@ -261,7 +261,7 @@ class Xchg:
 
             cc1 = (1 - x.fee * x.portfolio['cash'] - (2 * x.fee - x.fee ** 2)
                    * sell_amount) \
-                / (1 - self.fee * target_portfolio['cash'])
+                / (1 - x.fee * target_portfolio['cash'])
 
         # A capital after trade.
         tar_capital = x.capital * cc1
@@ -278,6 +278,6 @@ class Xchg:
             amount = tar_capital * target_portfolio[cur] \
                      / x.current_candle[cur]['close'] - x.balance[cur]
             if amount > 0:
-                x = x.buy(cur, abs(amount))
+                x = x.buy(cur, abs(amount / (1 - self.fee)))
 
         return x
