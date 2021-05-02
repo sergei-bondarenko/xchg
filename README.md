@@ -56,20 +56,20 @@ ex = ex.buy('ETC', 7500)
 ex = ex.buy('LTC', 15000)
 
 print(ex.balance)
-# Output: {'cash': 1.2146212121212017, 'ETC': 7500.0, 'ETH': 0.0, 'LTC': 15000.0, 'XMR': 0.0}
+# Output: {'cash': 2.2024749999999926, 'ETC': 7425.0, 'ETH': 0.0, 'LTC': 14850.0, 'XMR': 0.0}
 
 # All done, now we want to wait for 30 time periods.
 for _ in range(30):
   ex = ex.next_step()
 
 # Now we want to sell.
-ex = ex.sell('ETC', 7500)
-ex = ex.sell('LTC', 15000)
+ex = ex.sell('ETC', 7425)
+ex = ex.sell('LTC', 14850)
 
 print(ex.balance)
-# Output: {'cash': 101.1345539621212, 'ETC': 0.0, 'ETH': 0.0, 'LTC': 0.0, 'XMR': 0.0}
+# Output: {'cash': 101.1232084225, 'ETC': 0.0, 'ETH': 0.0, 'LTC': 0.0, 'XMR': 0.0}
 
-# We made 1 BTC, yay!
+# We made more than 1 BTC profit, yay!
 ```
 
 ## For developers
